@@ -1,0 +1,40 @@
+
+	.gantt_cell{
+    font-size:12px;
+	}
+	
+    .delayed{
+	border:2px solid #d96c49;
+	color: #d96c49;
+	background: #d96c49;
+    }
+    .delayed .gantt_task_progress{
+	background: #db2536;
+    }
+	
+    .ready{
+	border:2px solid #009900;
+	color:#009900;
+	background: #009900;
+    }
+    .ready .gantt_task_progress{
+	background: #20ff00;
+    }
+	
+    .feedback{
+	border:2px solid #0066ff;
+	color:#0066ff;
+	background: #0066ff;
+    }
+    .feedback .gantt_task_progress{
+	background: #6ba8e3;
+    }
+	
+	.progress{
+	border:2px solid #cccc00;
+	color:#cccc00;
+	background: #cccc00;
+    }
+    .progress .gantt_task_progress{
+	background: #547dab;
+    }
