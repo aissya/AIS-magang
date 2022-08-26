@@ -6,7 +6,7 @@ class overtime_m extends CI_Model
     private $tabel = 'TT_KRY_OVERTIME';
     private $temp_tabel = 'TW_KRY_OVERTIME';
 
-    function save($no_sequence, $period)
+    function save($no_sequence, $period) //function save menerima parameter $no_sequence dan $period yang dikirim dari controller ketika menjalankan function ini 
     {
         $aortadb = $this->load->database("aorta", TRUE);
 
@@ -32,14 +32,15 @@ class overtime_m extends CI_Model
         }
     }
 
-    function delete($no_sequence, $tgl_overtime){
+    function delete($no_sequence, $tgl_overtime)
+    {
         $aortadb = $this->load->database("aorta", TRUE);
 
         $aortadb->query("UPDATE TT_KRY_OVERTIME SET FLG_DELETE = 1 WHERE NO_SEQUENCE = '$no_sequence' AND TGL_OVERTIME = '$tgl_overtime'");
-       
     }
 
-    function increase_quota_employee_by_no_sequence($no_sequence, $period){
+    function increase_quota_employee_by_no_sequence($no_sequence, $period)
+    {
         $aortadb = $this->load->database("aorta", TRUE);
 
         $data = $aortadb->query("SELECT RTRIM(NPK) NPK, ROUND(CONVERT(FLOAT,RENC_DURASI_OV_TIME) / 60,2) RENC_DURASI_OV_TIME 
@@ -142,39 +143,36 @@ class overtime_m extends CI_Model
     {
         $aortadb = $this->load->database("aorta", TRUE);
 
-        if($section == 'ALL'){
+        if ($section == 'ALL') {
             return $aortadb->query("SELECT NO_SEQUENCE, TGL_OVERTIME, COUNT(NPK) AS TOT_MP, SUM(CAST(RENC_DURASI_OV_TIME AS DECIMAL(10,2)))/60 AS RENC_DURASI_OV_TIME, CEK_GM, CEK_KADEP, KD_DEPT, KD_SECTION, ALASAN
             FROM TT_KRY_OVERTIME WHERE TGL_OVERTIME LIKE '$period%' AND KD_DEPT = '$dept' AND FLG_DELETE = 0
                 GROUP BY CEK_GM, CEK_KADEP, KD_SECTION, NO_SEQUENCE, TGL_OVERTIME, KD_DEPT, ALASAN
                 ")->result();
-        }else{
+        } else {
             return $aortadb->query("SELECT NO_SEQUENCE, TGL_OVERTIME, COUNT(NPK) AS TOT_MP, SUM(CAST(RENC_DURASI_OV_TIME AS DECIMAL(10,2)))/60 AS RENC_DURASI_OV_TIME, CEK_GM, CEK_KADEP, KD_DEPT, KD_SECTION, ALASAN
             FROM TT_KRY_OVERTIME WHERE TGL_OVERTIME LIKE '$period%' AND KD_DEPT = '$dept' AND KD_SECTION = '$section' AND FLG_DELETE = 0
                 GROUP BY CEK_GM, CEK_KADEP, KD_SECTION, NO_SEQUENCE, TGL_OVERTIME, KD_DEPT, ALASAN
                 ")->result();
         }
-
-
     }
 
     function get_data_overtime_by_gm($dept, $period, $section)
     {
         $aortadb = $this->load->database("aorta", TRUE);
 
-        if($section == 'ALL'){
+        if ($section == 'ALL') {
             return $aortadb->query("SELECT NO_SEQUENCE, TGL_OVERTIME, COUNT(NPK) AS TOT_MP, SUM(CAST(RENC_DURASI_OV_TIME AS DECIMAL(10,2)))/60 AS RENC_DURASI_OV_TIME, CEK_GM, CEK_KADEP, KD_DEPT, KD_SECTION, ALASAN
             FROM TT_KRY_OVERTIME WHERE TGL_OVERTIME LIKE '$period%' AND KD_DEPT = '$dept' AND CEK_KADEP = '1'
                     GROUP BY CEK_GM, CEK_KADEP, KD_SECTION, NO_SEQUENCE, TGL_OVERTIME, KD_DEPT, ALASAN
                     ORDER BY CEK_GM
                     ")->result();
-        }else{
+        } else {
             return $aortadb->query("SELECT NO_SEQUENCE, TGL_OVERTIME, COUNT(NPK) AS TOT_MP, SUM(CAST(RENC_DURASI_OV_TIME AS DECIMAL(10,2)))/60 AS RENC_DURASI_OV_TIME, CEK_GM, CEK_KADEP, KD_DEPT, KD_SECTION, ALASAN
             FROM TT_KRY_OVERTIME WHERE TGL_OVERTIME LIKE '$period%' AND KD_DEPT = '$dept' AND KD_SECTION = '$section' AND CEK_KADEP = '1'
                     GROUP BY CEK_GM, CEK_KADEP, KD_SECTION, NO_SEQUENCE, TGL_OVERTIME, KD_DEPT, ALASAN
                     ORDER BY CEK_GM
                     ")->result();
         }
-
     }
 
     function get_data_overtime_by_no_spkl($no_spkl)
@@ -223,7 +221,7 @@ class overtime_m extends CI_Model
                         GROUP BY NO_SEQUENCE, CHR_DESC_CAT,TGL_OVERTIME, A.KD_DEPT, A.KD_SECTION, 
                         KETERANGAN, A.KD_SUB_SECTION, HARI_KJ, ALASAN, K.NAMA, A.CEK_DIR, A.CEK_GM, A.CEK_KADEP
             ")->row();
-             // LEFT JOIn CTE C ON C.KD_SECTION = A.KD_SECTION
+        // LEFT JOIn CTE C ON C.KD_SECTION = A.KD_SECTION
     }
 
     function get_temp_data_overtime_by_organization($dept, $section, $tanggal)
@@ -1197,11 +1195,12 @@ class overtime_m extends CI_Model
         return $query;
     }
 
-    public function getHeaderOvertimebyId($no_sequence){
+    public function getHeaderOvertimebyId($no_sequence)
+    {
         $aortadb = $this->load->database("aorta", TRUE);
 
         $data =  $aortadb->query("SELECT TOP 1 NO_SEQUENCE, TGL_OVERTIME, KD_DEPT, KD_SECTION FROM TT_KRY_OVERTIME WHERE NO_SEQUENCE = '$no_sequence' GROUP BY  NO_SEQUENCE, TGL_OVERTIME, KD_DEPT, KD_SECTION");
-    
+
         return $data->row();
     }
 

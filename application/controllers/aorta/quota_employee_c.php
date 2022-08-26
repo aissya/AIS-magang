@@ -65,7 +65,7 @@ class quota_employee_c extends CI_Controller
         $id_group = $user_session['GROUPDEPT'];
         $id_division = $user_session['DIVISION'];
 
-        if ($role == 1) {
+        if ($role == 25) {
             if ($dept == NULL) {
                 $dept = $this->dept_m->get_top_data_dept_by_division($id_division)->row()->CHR_DEPT;
             } else {

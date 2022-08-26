@@ -77,14 +77,14 @@
                                 <tr>
                                     <td width="10%" style='text-align:left;'><strong>Periode / Dept / Section</strong></td>
                                     <td width="10%">
-                                        <select class="ddl" id="tanggal" onChange="document.location.href = this.options[this.selectedIndex].value;">
-                                            <?php for ($x = -5; $x <= 5; $x++) {
+                                        <select id="tanggal" class="ddl" onChange="document.location.href = this.options[this.selectedIndex].value;">
+                                            <?php for ($x = -5; $x <= 5; $x++) { //mengambil 5 bulan sebelum dan 5 bulan sesudah saat bulan ini, misal ini bulan agustus, maka muncul april - agustus - januari
                                                 $y = $x * 28 ?>
                                                 <option value="<?php echo site_url('aorta/overtime_c/index/' . date("Ym", strtotime("+$y day")) . '/' . trim($dept) . '/' . $section); ?>" <?php
-                                                                                                                                                                                        if ($period == date("Ym", strtotime("+$y day"))) {
-                                                                                                                                                                                            echo 'SELECTED';
-                                                                                                                                                                                        }
-                                                                                                                                                                                        ?>> <?php echo date("M Y", strtotime("+$y day")); ?> </option>
+                                                                                                                                                                                            if ($period == date("Ym", strtotime("+$y day"))) {
+                                                                                                                                                                                                echo 'SELECTED';
+                                                                                                                                                                                            }
+                                                                                                                                                                                            ?>> <?php echo date("M Y", strtotime("+$y day")); ?> </option>
                                             <?php } ?>
                                         </select>
                                     </td>
@@ -93,10 +93,10 @@
 
                                             <?php foreach ($all_dept as $row) { ?>
                                                 <option value="<?php echo site_url('aorta/overtime_c/index/' . $period . '/' . trim($row->CHR_DEPT) . '/' . trim($section)); ?>" <?php
-                                                                                                                                                                                if ($dept == trim($row->CHR_DEPT)) {
-                                                                                                                                                                                    echo 'SELECTED';
-                                                                                                                                                                                }
-                                                                                                                                                                                ?>><?php echo trim($row->CHR_DEPT); ?></option>
+                                                                                                                                                                                    if ($dept == trim($row->CHR_DEPT)) {
+                                                                                                                                                                                        echo 'SELECTED';
+                                                                                                                                                                                    }
+                                                                                                                                                                                    ?>><?php echo trim($row->CHR_DEPT); ?></option>
                                             <?php } ?>
                                         </select>
                                     </td>
@@ -136,7 +136,7 @@
                                     $i = 1;
                                     foreach ($data as $isi) {
                                         echo "<tr class='gradeX'>";
-                                        echo "<td>$i</td>";
+                                        echo "<td>$i</td>"; //INCREMENT NO
 
                                         if ($isi->CEK_KADEP == 0 && $isi->CEK_GM == 0) {
                                             $color = 'background:#E63F53;color:#fff;';
@@ -151,14 +151,14 @@
                                             $color = '';
                                         }
 
-                                        echo "<td style='$color'><strong>$isi->NO_SEQUENCE</strong></td>";
+                                        echo "<td style='$color'><strong>$isi->NO_SEQUENCE</strong></td>"; //ISI DATA NO SPKL
                                         if (strlen($isi->ALASAN) > 80) {
                                             echo "<td>" . substr($isi->ALASAN, 0, 80) . " ...</td>";
                                         } else {
                                             echo "<td>" . $isi->ALASAN . "</td>";
                                         }
-                                        echo "<td align='center'><strong>$isi->TOT_MP</strong></td>";
-                                        echo "<td align='center'><strong>" . number_format($isi->RENC_DURASI_OV_TIME, 2, ',', '.') . "</strong></td>";
+                                        echo "<td align='center'><strong>$isi->TOT_MP</strong></td>"; //TOT_MP
+                                        echo "<td align='center'><strong>" . number_format($isi->RENC_DURASI_OV_TIME, 2, ',', '.') . "</strong></td>"; //PLAN OTT
 
                                     ?>
                                         <td align='center'>

@@ -41,15 +41,15 @@
                             <label class="col-sm-3 control-label">Department Head</label>
                             <div class="col-sm-5">
                                 <?php
-                                    $npk = trim($data->KADEP_NPK);
-                                    $manager = $this->db->query("SELECT CHR_USERNAME FROM TM_USER WHERE CHR_NPK = '$npk'")->row();
-                                    $man_name = '';
-                                    if(count($manager) > 0){
-                                        $man_name = $manager->CHR_USERNAME;
-                                    }
+                                $npk = trim($data->KADEP_NPK);
+                                $manager = $this->db->query("SELECT CHR_USERNAME FROM TM_USER WHERE CHR_NPK = '$npk'")->row();
+                                $man_name = '';
+                                if (count($manager) > 0) {
+                                    $man_name = $manager->CHR_USERNAME;
+                                }
                                 ?>
                                 <select name="MANAGER" id="manager" class="form-control" style="width:300px">
-                                    <option value="<?php echo $data->KADEP_NPK; ?>"><?php echo $data->KADEP_NPK . ' - ' . $man_name; ?></option>                                        
+                                    <option value="<?php echo $data->KADEP_NPK; ?>"><?php echo $data->KADEP_NPK . ' - ' . $man_name; ?></option>
                                 </select>
                             </div>
                         </div>
@@ -78,9 +78,9 @@
                         <div class="form-group">
                             <div class="col-sm-offset-3 col-sm-5">
                                 <div class="btn-group">
-                                    <?php 
-                                        echo anchor('aorta/master_data_c/manage_dept', 'Back', 'class="btn btn-default"');
-                                        echo form_close();
+                                    <?php
+                                    echo anchor('aorta/master_data_c/manage_dept', 'Back', 'class="btn btn-default"');
+                                    echo form_close();
                                     ?>
                                 </div>
                             </div>
@@ -91,4 +91,3 @@
         </div>
     </section>
 </aside>
-

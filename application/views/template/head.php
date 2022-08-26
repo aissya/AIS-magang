@@ -107,7 +107,7 @@
                                 if ($x == NULL) {
                                     $x = $value->CHR_ROLE;
                                 } else {
-                                    break;
+                                    break; //CHR_ROLE = 25 = HRD ADMIN, pada tabel TM_ROLE
                                 }
                             }
                             ?>
@@ -126,7 +126,7 @@
                             } else {
                                 $ap_stat = 'null';
                             }
-                            echo '<li class="menu ' . $ap_stat . '"><a href="#"><i class="fa fa-' . $app_data->CHR_ICON . '"></i><span>' . strtoupper(trim($app_data->CHR_APP)) . '</span><i class="fa fa-angle-left pull-right"></i></a>';
+                            echo '<li class="menu ' . $ap_stat . '"><a href="#"><i class="fa fa-' . $app_data->CHR_ICON . '"></i><span>' . strtoupper(trim($app_data->CHR_APP)) . '</span><i class="fa fa-angle-left pull-right"></i></a>'; //ICON untuk AORTA
                             echo '<ul class="sub-menu">';
                             foreach ($module as $module_data) {
                                 if ($app_data->INT_ID_APP == $module_data->INT_ID_APP) {
