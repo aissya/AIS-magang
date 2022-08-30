@@ -23,7 +23,14 @@
     }
 
     #filter {
-        border-spacing: 10px;
+        -webkit-border-horizontal-spacing: 0px;
+        -webkit-border-vertical-spacing: 10px;
+        border-collapse: separate;
+    }
+
+    #filterx {
+        -webkit-border-horizontal-spacing: 20px;
+        -webkit-border-vertical-spacing: 10px;
         border-collapse: separate;
     }
 
@@ -36,7 +43,7 @@
     }
 
     .ddl {
-        width: 100px;
+        width: 120px;
         height: 30px;
     }
 
@@ -45,6 +52,7 @@
         height: 30px;
     }
 </style>
+
 
 <aside class="right-side">
     <section class="content-header">
@@ -69,67 +77,96 @@
                         <span class="grid-title"><strong>DOWNLOAD SPKL</strong></span>
                         <div class="pull-right grid-tools">
                             <a href="<?php echo base_url('index.php/aorta/overtime_c/create_overtime/' . $period . '/' . $dept . '/' . $section) ?>" class="btn btn-default" data-toggle="tooltip" data-placement="left" title="Download All" style="height:30px;font-size:13px;width:110px;padding-left:10px;">Download All</a>
-                            
+
 
                         </div>
                     </div>
                     <div class="grid-body">
-                        <div class="pull">
-                            <table width="100%" id='filter'>
-                                <tr>
-                                    
-                                    </td>
-                                    <td width="10%" style='text-align:left;' colspan="4">
-                                       
-                                    </td>
-
-                                    <td width="50%">
-
-                                    </td>
-                                    <td width="10%">
-                                    </td>
-                            </table>
-                        </div>
-                        <div id="table-luar">
-                            <table id="dataTables3" class="table table-condensed  table-striped table-hover display" cellspacing="0" width="100%">
-                                <thead>
-                                    <tr>
-                                        <th style="vertical-align: middle;text-align:center;">Reference No</th>
-                                        <th style="vertical-align: middle;text-align:center;">Employee ID</th>
-                                        <th style="vertical-align: middle;text-align:center;">Overtime Date</th>
-                                        <th style="vertical-align: middle;text-align:center;">Reference Date</th>
-                                        <th style="vertical-align: middle;text-align:center;">Overtime In Date</th>
-                                        <th style="vertical-align: middle;text-align:center;">Overtime In Time</th>
-                                        <th style="vertical-align: middle;text-align:center;">Overtime Out Date</th>
-                                        <th style="vertical-align: middle;text-align:center;">Overtime Out Time</th>
-                                        <th style="vertical-align: middle;text-align:center;">Remark</th>
-
-                                        <th style="vertical-align: middle;text-align:center;">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php $i = 1; ?>
-                                    <?php foreach ($data_download as $isi) : ?>
+                        <div style="overflow-x:auto;">
+                            <div id="table-luar">
+                                <table id="dataTables3" class="table table-condensed  table-striped table-hover display" cellspacing="0" width="100%">
+                                    <thead>
                                         <tr>
-                                            <td style="vertical-align: middle;text-align:center;" ><?= $isi->NO_SEQUENCE ?></td>
-                                            <td style="vertical-align: middle;text-align:center;">
-                                                <a class= "btn btn-primary" href="<?php echo base_url('view_spkl/manage_view_spkl_v/') ?>" <i class=""></i>Show</a>
-                                                <a class= "btn btn-success" href="<?php echo base_url('download_spkl_c/excel') ?>" <i class=""></i>Download</a>
-                                            </td>
+
+                                            <!--A -->
+                                            <th style="vertical-align: middle;text-align:center;">Reference No</th>
+                                            <!--B -->
+                                            <th style="vertical-align: middle;text-align:center;">Employee ID</th>
+                                            <!--C -->
+                                            <th style="vertical-align: middle;text-align:center;">Overtime Date</th>
+                                            <!--D -->
+                                            <th style="vertical-align: middle;text-align:center;">Reference Date</th>
+                                            <!--E -->
+                                            <th style="vertical-align: middle;text-align:center;">Overtime In Date</th>
+                                            <!--F -->
+                                            <th style="vertical-align: middle;text-align:center;">Overtime In Time</th>
+                                            <!--G -->
+                                            <th style="vertical-align: middle;text-align:center;">Overtime Out Date</th>
+                                            <!--H -->
+                                            <th style="vertical-align: middle;text-align:center;">Overtime Out Time</th>
+                                            <!--I -->
+                                            <th style="vertical-align: middle;text-align:center;">Remark</th>
+                                            <!--J -->
+                                            <th style="vertical-align: middle;text-align:center;">Actions</th>
+
                                         </tr>
-                                    <?php $i++; ?>
-                                    <?php endforeach; ?>
-                                    
-                                    
+                                    </thead>
+                                    <tbody>
 
-                                </tbody>
-                            </table>
 
+                                        <?php foreach ($data_download as $isi) : ?>
+                                            <tr>
+                                                <!--A -->
+                                                <!--Reference NO -->
+                                                <td style="vertical-align: middle;text-align:center;"><?= $isi->Reference ?></td>
+                                                <!--B -->
+                                                <!--Employee ID -->
+                                                <td style="vertical-align: middle;text-align:center;"><?= $isi->NPK ?></td>
+                                                <!--C -->
+                                                <!--Overtime Date -->
+                                                <td style="vertical-align: middle;text-align:center;"><?= $isi->TGL_OVERTIME ?></td>
+                                                <!--D -->
+                                                <!--Reference Date -->
+                                                <td style="vertical-align: middle;text-align:center;"><?= $isi->TGL_ENTRY ?></td>
+                                                <!--E -->
+                                                <!--Overtime In Date -->
+                                                <td style="vertical-align: middle;text-align:center;"><?= $isi->TGL_OVERTIME ?></td>
+                                                <!--F -->
+                                                <!--Overtime In Time -->
+                                                <!-- --ambil 4 angka didepan-- LEFT di query -->
+                                                <!-- --REAL_MULAI_OV_TIME-- -->
+                                                <td style="vertical-align: middle;text-align:center;"><?= $isi->OVT_IN_TIME ?></td>
+                                                <!--G -->
+                                                <!-- Overtime Out Date -->
+                                                <!-- --ada tambahan if-- CASE WHEN di query -->
+                                                <td style="vertical-align: middle;text-align:center;"><?= $isi->OVT_OUT_DATE ?></td>
+                                                <!--H -->
+                                                <!-- Overtime Out Time -->
+                                                <!-- --ambil 4 angka didepan-- LEFT di query -->
+                                                <!-- --REAL_OV_TIME-- -->
+                                                <td style="vertical-align: middle;text-align:center;"><?= $isi->OVT_OUT_TIME ?></td>
+                                                <!--I -->
+                                                <!-- Remark -->
+                                                <!--NO SEQUENCE + CLOSE_TRANS -- CONCAT di query -->
+                                                <td style="vertical-align: middle;text-align:center;"><?= $isi->Remark ?></td>
+
+                                                <td style="vertical-align: middle;text-align:center;">
+                                                    <a class="btn btn-primary" href="<?php echo base_url('view_spkl/manage_view_spkl_v/') ?>" <i class=""></i>Show</a>
+                                                    <a class="btn btn-success" href="<?php echo base_url('download_spkl_c/excel') ?>" <i class=""></i>Download</a>
+                                                </td>
+                                            </tr>
+
+                                        <?php endforeach; ?>
+
+
+                                    </tbody>
+                                </table>
+
+                            </div>
                         </div>
                     </div>
+
                 </div>
-
-
 
 
             </div>
@@ -140,6 +177,7 @@
 
 <script src="<?php echo base_url('assets/js/jquery-1.12.3.js') ?>"></script>
 <script src="<?php echo base_url('assets/js/jquery.dataTables.min.js') ?>"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
 <script src="<?php echo base_url('assets/js/dataTables.fixedColumns.min.js') ?>"></script>
 <link rel="stylesheet" href="<?php echo base_url('assets/css/fixedColumns.dataTables.min.css'); ?>">
 <script>
@@ -157,4 +195,25 @@
     // //                                                    $('.dataTables_filter input').addClass('search-query');
     //                                                 $('.dataTables_filter input').attr('placeholder', 'Search');
     //                                             });
+
+    // function get_data_detail(qrno, stat) {
+    //     $("#data_detail").html("");
+    //     $.ajax({
+    //         async: false,
+    //         type: "POST",
+    //         // dataType: 'json',
+    //         url: "<?php echo site_url('aorta/quota_employee_c/view_detail_quota_employee_by_user'); ?>",
+    //         data: {
+    //             qrno: qrno,
+    //             stat: stat
+    //         },
+    //         success: function(data) {
+    //             $("#data_detail" + qrno).html(data);
+    //         },
+    //         error: function(request, error) {
+    //             alert(request.responseText);
+    //         }
+    //     });
+
+    // }
 </script>

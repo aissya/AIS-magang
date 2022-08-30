@@ -23,7 +23,8 @@
     }
 
     #filter {
-        border-spacing: 10px;
+        -webkit-border-horizontal-spacing: 0px;
+        -webkit-border-vertical-spacing: 10px;
         border-collapse: separate;
     }
 
@@ -42,7 +43,7 @@
     }
 
     .ddl {
-        width: 100px;
+        width: 120px;
         height: 30px;
     }
 
@@ -146,10 +147,8 @@
 
                                                         </tr>
                                                     <?php endforeach; ?>
-
                                                 </tbody>
                                             </table>
-
                                         </div>
 
                                         <!-- <p id="dept">test</p> -->
@@ -162,6 +161,7 @@
 
                             </div>
                         </div>
+                    </div>
 
     </section>
 </aside>

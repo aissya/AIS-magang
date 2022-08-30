@@ -12,7 +12,7 @@ class view_spkl_m extends CI_Model
         $aortadb = $this->load->database("aorta", TRUE);
 
 
-        $query = $aortadb->query("SELECT TOP 1000  * FROM TT_KRY_OVERTIME 
+        $query = $aortadb->query("SELECT * FROM TT_KRY_OVERTIME 
         INNER JOIN TM_KRY ON TT_KRY_OVERTIME.NPK = TM_KRY.NPK
          where LEFT(TT_KRY_OVERTIME.TGL_OVERTIME,6) = '$period'  and TT_KRY_OVERTIME.KD_DEPT = '$dept' 
          ORDER BY TGL_OVERTIME DESC");
