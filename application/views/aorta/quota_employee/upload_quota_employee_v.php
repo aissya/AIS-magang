@@ -198,7 +198,8 @@
                                     <td width="10%" style='text-align:left;'><strong>Periode</strong></td>
                                     <td width="25%">
                                         <select class="ddl" name="CHR_PERIOD" onChange="document.location.href = this.options[this.selectedIndex].value;">
-                                            <?php for ($x = -2; $x <= 2; $x++) { $y = $x * 28 ?>
+                                            <?php for ($x = -2; $x <= 2; $x++) {
+                                                $y = $x * 28 ?>
                                                 <option value="<?php echo site_url('aorta/quota_employee_c/create_quota_employee/' . date("Ym", strtotime("+$y day")) . '/' . $dept); ?>" <?php if ($period == date("Ym", strtotime("+$y day"))) {
                                                                                                                                                                                                 echo 'selected';
                                                                                                                                                                                             } ?>>

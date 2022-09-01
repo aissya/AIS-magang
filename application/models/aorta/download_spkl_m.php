@@ -10,7 +10,7 @@ class download_spkl_m extends CI_Model
     {
         $aortadb = $this->load->database("aorta", TRUE);
 
-        $query = $aortadb->query("SELECT TOP 100 NO_SEQUENCE,NPK, CEK_GM, TGL_OVERTIME, TGL_ENTRY, REAL_MULAI_OV_TIME, REAL_SELESAI_OV_TIME,
+        $query = $aortadb->query("SELECT TOP 10 NO_SEQUENCE,NPK, CEK_GM, TGL_OVERTIME, TGL_ENTRY, REAL_MULAI_OV_TIME, REAL_SELESAI_OV_TIME,
         (RTRIM(NPK)+'/'+TGL_OVERTIME+'/01') AS Reference, 
         (NO_SEQUENCE+''+CLOSE_TRANS) AS Remark,
 		LEFT(REAL_MULAI_OV_TIME, 4) AS OVT_IN_TIME,
