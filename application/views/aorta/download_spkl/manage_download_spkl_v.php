@@ -210,25 +210,11 @@
                                     <thead>
                                         <tr>
 
-                                            <!--A -->
-                                            <th style="vertical-align: middle;text-align:center;">Reference No</th>
-                                            <!--B -->
-                                            <th style="vertical-align: middle;text-align:center;">Employee ID</th>
-                                            <!--C -->
-                                            <th style="vertical-align: middle;text-align:center;">Overtime Date</th>
-                                            <!--D -->
-                                            <th style="vertical-align: middle;text-align:center;">Reference Date</th>
-                                            <!--E -->
-                                            <th style="vertical-align: middle;text-align:center;">Overtime In Date</th>
-                                            <!--F -->
-                                            <th style="vertical-align: middle;text-align:center;">Overtime In Time</th>
-                                            <!--G -->
-                                            <th style="vertical-align: middle;text-align:center;">Overtime Out Date</th>
-                                            <!--H -->
-                                            <th style="vertical-align: middle;text-align:center;">Overtime Out Time</th>
-                                            <!--I -->
-                                            <th style="vertical-align: middle;text-align:center;">Remark</th>
-                                            <!--J -->
+
+                                            <th style="vertical-align: middle;text-align:center;">SPKL</th>
+
+                                            <th style="vertical-align: middle;text-align:center;">Jumlah Karyawan</th>
+
                                             <th style="vertical-align: middle;text-align:center;">Actions</th>
 
                                         </tr>
@@ -238,39 +224,10 @@
 
                                         <?php foreach ($data_download as $isi) : ?>
                                             <tr>
-                                                <!--A -->
-                                                <!--Reference NO -->
-                                                <td style="vertical-align: middle;text-align:center;"><?= $isi->Reference ?></td>
-                                                <!--B -->
-                                                <!--Employee ID -->
-                                                <td style="vertical-align: middle;text-align:center;"><?= $isi->NPK ?></td>
-                                                <!--C -->
-                                                <!--Overtime Date -->
-                                                <td style="vertical-align: middle;text-align:center;"><?= $isi->TGL_OVERTIME ?></td>
-                                                <!--D -->
-                                                <!--Reference Date -->
-                                                <td style="vertical-align: middle;text-align:center;"><?= $isi->TGL_ENTRY ?></td>
-                                                <!--E -->
-                                                <!--Overtime In Date -->
-                                                <td style="vertical-align: middle;text-align:center;"><?= $isi->TGL_OVERTIME ?></td>
-                                                <!--F -->
-                                                <!--Overtime In Time -->
-                                                <!-- --ambil 4 angka didepan-- LEFT di query -->
-                                                <!-- --REAL_MULAI_OV_TIME-- -->
-                                                <td style="vertical-align: middle;text-align:center;"><?= $isi->OVT_IN_TIME ?></td>
-                                                <!--G -->
-                                                <!-- Overtime Out Date -->
-                                                <!-- --ada tambahan if-- CASE WHEN di query -->
-                                                <td style="vertical-align: middle;text-align:center;"><?= $isi->OVT_OUT_DATE ?></td>
-                                                <!--H -->
-                                                <!-- Overtime Out Time -->
-                                                <!-- --ambil 4 angka didepan-- LEFT di query -->
-                                                <!-- --REAL_OV_TIME-- -->
-                                                <td style="vertical-align: middle;text-align:center;"><?= $isi->OVT_OUT_TIME ?></td>
-                                                <!--I -->
-                                                <!-- Remark -->
-                                                <!--NO SEQUENCE + CLOSE_TRANS -- CONCAT di query -->
-                                                <td style="vertical-align: middle;text-align:center;"><?= $isi->Remark ?></td>
+
+                                                <td style="vertical-align: middle;text-align:center;"><?= $isi->SPKL ?></td>
+
+                                                <td style="vertical-align: middle;text-align:center;"><?= $isi->Karyawan ?></td>
 
                                                 <td style="vertical-align: middle;text-align:center;">
                                                     <a class="btn btn-primary" href="<?php echo base_url('view_spkl/manage_view_spkl_v/') ?>" <i class=""></i>Show</a>
@@ -288,60 +245,7 @@
                         </div>
                     </div>
 
-                    <div class="grid-body" style="padding-top: 0px;display:none;">
-                        <div id="table-luar">
-                            <table id="template_upload" class="table table-condensed table-bordered table-striped table-hover display" cellspacing="0" width="100%">
-                                <thead>
-                                    <tr>
-                                        <!--A -->
-                                        <th style="vertical-align: middle;text-align:center;">reference no</th>
-                                        <!--B -->
-                                        <th style="vertical-align: middle;text-align:center;">employee ID</th>
-                                        <!--C -->
-                                        <th style="vertical-align: middle;text-align:center;">overtime date</th>
-                                        <!--D -->
-                                        <th style="vertical-align: middle;text-align:center;">reference date</th>
-                                        <!--E -->
-                                        <th style="vertical-align: middle;text-align:center;">overtime in date</th>
-                                        <!--F -->
-                                        <th style="vertical-align: middle;text-align:center;">overtime in time</th>
-                                        <!--G -->
-                                        <th style="vertical-align: middle;text-align:center;">overtime out date</th>
-                                        <!--H -->
-                                        <th style="vertical-align: middle;text-align:center;">overtime out time</th>
-                                        <!--I -->
-                                        <th style="vertical-align: middle;text-align:center;">remark</th>
 
-
-                                    </tr>
-
-                                </thead>
-                                <tbody>
-                                    <?php
-
-                                    $excel = 2;
-                                    foreach ($data['data_download'] as $isi) {
-                                        echo "<tr>";
-
-                                        echo "<td style='text-align:center;' >'$isi->Reference/td>";
-                                        echo "<td style='text-align:left;' >$isi->NPK</td>";
-                                        echo "<td style='text-align:left;' >$isi->TGL_OVERTIME</td>";
-                                        echo "<td style='text-align:left;' >$isi->TGL_ENTRY</td>";
-                                        echo "<td style='text-align:left;' >$isi->TGL_OVERTIME</td>";
-                                        echo "<td style='text-align:left;' >$isi->OVT_IN_TIME</td>";
-                                        echo "<td style='text-align:left;' >$isi->OVT_OUT_DATE</td>";
-                                        echo "<td style='text-align:left;' >$isi->OVT_OUT_TIME</td>";
-                                        echo "<td style='text-align:left;' >$isi->Remark</td>";
-
-                                        echo "</tr>";
-
-                                        $excel++;
-                                    }
-                                    ?>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
 
                 </div>
 
