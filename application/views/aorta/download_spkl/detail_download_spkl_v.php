@@ -181,24 +181,21 @@
         <ol class="breadcrumb">
             <li><a href="<?php echo base_url('index.php/basis/home_c') ?>"><span>Home</span></a></li>
             <li><a href="<?php echo base_url('index.php/aorta/download_spkl_c') ?>"><span>Download SPKL</span></a></li>
+            <li><a href="#"><strong>Detail SPKL</strong></a></li>
+
         </ol>
     </section>
 
     <section class="content">
-        <?php
-        if ($msg != NULL) {
-            echo $msg;
-        }
-        ?>
+
 
         <div class="row">
             <div class="col-md-12">
                 <div class="grid">
                     <div class="grid-header">
                         <i class="fas fa fa-solid fa-download"></i>
-                        <span class="grid-title"><strong>DOWNLOAD SPKL</strong></span>
+                        <span class="grid-title"><strong>DETAIL SPKL </strong></span>
                         <div class="pull-right grid-tools">
-
 
                         </div>
                     </div>
@@ -209,34 +206,68 @@
                                     <thead>
                                         <tr>
 
-
-                                            <th style="vertical-align: middle;text-align:center;">SPKL</th>
-
-                                            <th style="vertical-align: middle;text-align:center;">Jumlah Karyawan</th>
-
-                                            <th style="vertical-align: middle;text-align:center;">Actions</th>
+                                            <!--A -->
+                                            <th style="vertical-align: middle;text-align:center;">Reference No</th>
+                                            <!--B -->
+                                            <th style="vertical-align: middle;text-align:center;">Employee ID</th>
+                                            <!--C -->
+                                            <th style="vertical-align: middle;text-align:center;">Overtime Date</th>
+                                            <!--D -->
+                                            <th style="vertical-align: middle;text-align:center;">Reference Date</th>
+                                            <!--E -->
+                                            <th style="vertical-align: middle;text-align:center;">Overtime In Date</th>
+                                            <!--F -->
+                                            <th style="vertical-align: middle;text-align:center;">Overtime In Time</th>
+                                            <!--G -->
+                                            <th style="vertical-align: middle;text-align:center;">Overtime Out Date</th>
+                                            <!--H -->
+                                            <th style="vertical-align: middle;text-align:center;">Overtime Out Time</th>
+                                            <!--I -->
+                                            <th style="vertical-align: middle;text-align:center;">Remark</th>
 
                                         </tr>
                                     </thead>
                                     <tbody>
 
 
-                                        <?php foreach ($data_download as $isi) : ?>
+                                        <?php foreach ($detail_data_download as $isi) : ?>
                                             <tr>
+                                                <!--A -->
+                                                <!--Reference NO -->
+                                                <td style="vertical-align: middle;text-align:center;"><?= $isi->Reference ?></td>
+                                                <!--B -->
+                                                <!--Employee ID -->
+                                                <td style="vertical-align: middle;text-align:center;"><?= $isi->NPK ?></td>
+                                                <!--C -->
+                                                <!--Overtime Date -->
+                                                <td style="vertical-align: middle;text-align:center;"><?= $isi->TGL_OVERTIME ?></td>
+                                                <!--D -->
+                                                <!--Reference Date -->
+                                                <td style="vertical-align: middle;text-align:center;"><?= $isi->TGL_ENTRY ?></td>
+                                                <!--E -->
+                                                <!--Overtime In Date -->
+                                                <td style="vertical-align: middle;text-align:center;"><?= $isi->TGL_OVERTIME ?></td>
+                                                <!--F -->
+                                                <!--Overtime In Time -->
+                                                <!-- --ambil 4 angka didepan-- LEFT di query -->
+                                                <!-- --REAL_MULAI_OV_TIME-- -->
+                                                <td style="vertical-align: middle;text-align:center;"><?= $isi->OVT_IN_TIME ?></td>
+                                                <!--G -->
+                                                <!-- Overtime Out Date -->
+                                                <!-- --ada tambahan if-- CASE WHEN di query -->
+                                                <td style="vertical-align: middle;text-align:center;"><?= $isi->OVT_OUT_DATE ?></td>
+                                                <!--H -->
+                                                <!-- Overtime Out Time -->
+                                                <!-- --ambil 4 angka didepan-- LEFT di query -->
+                                                <!-- --REAL_OV_TIME-- -->
+                                                <td style="vertical-align: middle;text-align:center;"><?= $isi->OVT_OUT_TIME ?></td>
+                                                <!--I -->
+                                                <!-- Remark -->
+                                                <!--NO SEQUENCE + CLOSE_TRANS -- CONCAT di query -->
+                                                <td style="vertical-align: middle;text-align:center;"><?= $isi->Remark ?></td>
 
-                                                <td style="vertical-align: middle;text-align:center;"><?= $isi->SPKL ?></td>
 
-                                                <td style="vertical-align: middle;text-align:center;"><?= $isi->Karyawan ?></td>
-
-                                                <td style="vertical-align: middle;text-align:center;">
-                                                    <a href="<?php echo site_url('index.php/aorta/download_spkl_c/show/') . $isi->SPKL  ?>" class="btn-detail-class btn btn-primary" type="button" <i></i>Show</a>
-                                                    <a href="<?php echo site_url('index.php/aorta/download_spkl_c/excel_all/') . $isi->SPKL  ?>" class=" btn btn-default" style="height:30px;font-size:13px;width:110px;padding-left:10px;">Download All</a>
-
-
-                                                    <a class="btn btn-success" href="<?php echo site_url('index.php/aorta/download_spkl_c/excel/') . $isi->SPKL  ?>" <i></i>Download</a>
-                                                </td>
                                             </tr>
-
 
                                         <?php endforeach; ?>
 
@@ -247,7 +278,6 @@
                             </div>
                         </div>
                     </div>
-
 
 
 
@@ -280,4 +310,25 @@
     // //                                                    $('.dataTables_filter input').addClass('search-query');
     //                                                 $('.dataTables_filter input').attr('placeholder', 'Search');
     //                                             });
+
+    // function get_data_detail(qrno, stat) {
+    //     $("#data_detail").html("");
+    //     $.ajax({
+    //         async: false,
+    //         type: "POST",
+    //         // dataType: 'json',
+    //         url: "<?php echo site_url('aorta/quota_employee_c/view_detail_quota_employee_by_user'); ?>",
+    //         data: {
+    //             qrno: qrno,
+    //             stat: stat
+    //         },
+    //         success: function(data) {
+    //             $("#data_detail" + qrno).html(data);
+    //         },
+    //         error: function(request, error) {
+    //             alert(request.responseText);
+    //         }
+    //     });
+
+    // }
 </script>
