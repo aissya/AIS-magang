@@ -245,7 +245,9 @@
 
                                             <th style="vertical-align: middle;text-align:center;">Jumlah Karyawan</th>
 
-                                            <th style="vertical-align: middle;text-align:center;">Actions</th>
+                                            <th style="vertical-align: middle;text-align:center;">Plan Overtime</th>
+
+
 
                                         </tr>
                                     </thead>
@@ -259,11 +261,9 @@
 
                                                 <td style="vertical-align: middle;text-align:center;"><?= $isi->Karyawan ?></td>
 
-                                                <td style="vertical-align: middle;text-align:center;">
-                                                    <a href="<?php echo site_url('index.php/aorta/download_spkl_c/show/') . $isi->SPKL  ?>" class="btn-detail-class btn btn-primary" type="button" <i></i>Show</a>
+                                                <td style="vertical-align: middle;text-align:center;"><?= $isi->Plan_OT ?></td>
 
-                                                    <a href="<?php echo site_url('index.php/aorta/download_spkl_c/excel/') . $isi->SPKL  ?>" class="btn btn-success"></>Download</a>
-                                                </td>
+
                                             </tr>
 
 

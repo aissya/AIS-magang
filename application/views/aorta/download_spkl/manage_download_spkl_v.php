@@ -220,7 +220,7 @@
 											<?php } ?>
 										</select>
 									</td> -->
-									<td width="10%" style='text-align:left;' colspan="4">
+									<!-- <td width="10%" style='text-align:left;' colspan="4">
 										<select onChange="document.location.href = this.options[this.selectedIndex].value;" class="ddl">
 											<?php foreach ($all_dept as $row) { ?>
 												<option value="<? echo site_url('aorta/quota_employee_c/index/' . $period . '/' . trim($row->CHR_DEPT) . '/' . $section); ?>" <?php
@@ -230,7 +230,7 @@
 																																												?>><?php echo trim($row->CHR_DEPT); ?></option>
 											<?php } ?>
 										</select>
-									</td>
+									</td> -->
 
 									<td width="60%">
 									</td>
@@ -277,10 +277,10 @@
 													<?php
 													if ($isi->FLG_DOWNLOAD == 1) {
 
-														echo '<p> <a class="btn-detail-class btn btn-success"  >Sudah Download</a> </p>';
+														echo '<i class="fa fa-duotone fa-check"></i>';
 													} else {
 
-														echo '<p> <a class="btn-detail-class btn btn-warning"  >Belum Download</a> </p>';
+														echo '<i class="fa fa-solid fa-minus"></i>';
 													}
 
 													?>
@@ -335,15 +335,16 @@
 </aside>
 <script src="<?php echo base_url('assets/js/jquery.dataTables.min.js') ?>"></script>
 <script src="<?php echo base_url('assets/js/jquery.multiDownload.js') ?>"></script>
+<script src="<?php echo base_url('assets/js/refresh.js') ?>"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
 <script src="<?php echo base_url('assets/js/dataTables.fixedColumns.min.js') ?>"></script>
 <link rel="stylesheet" href="<?php echo base_url('assets/css/fixedColumns.dataTables.min.css'); ?>">
 <script>
-	$('#download_refresh').click(function() {
-		location.reload();
-	});
+	// $('#download_refresh').click(function() {
+	// 	location.reload(true);
+	// });
 
 
 	// $('#download_coba').click(function(event) {
