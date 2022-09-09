@@ -65,7 +65,7 @@
         <?php
         if ($msg != NULL) {
             echo $msg;
-        }
+    }
         ?>
 
         <div class="row">

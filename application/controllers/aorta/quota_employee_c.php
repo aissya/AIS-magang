@@ -185,6 +185,8 @@ class quota_employee_c extends CI_Controller
         $data['data_template'] = $this->quota_employee_m->get_data_employee_by_dept_section_and_period($dept, $section);
         $data['data'] = array(); //$this->quota_employee_m->get_temp_data_request_quota_employee_by_qrno($qrno);
         $data['increment'] = 0;
+        
+        // $data['data'] = $this->quota_employee_m->get_data_request_quota_employee($data['dept'], $section, $period);
 
         $data['content'] = 'aorta/quota_employee/upload_quota_employee_v';
         $this->load->view($this->layout, $data);
