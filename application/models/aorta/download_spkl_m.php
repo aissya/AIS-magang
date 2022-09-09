@@ -41,7 +41,6 @@ class download_spkl_m extends CI_Model
 
 
 
-
     function excel_m($no_spkl)
     {
         $aortadb = $this->load->database("aorta", TRUE);
@@ -51,6 +50,7 @@ class download_spkl_m extends CI_Model
         (NO_SEQUENCE+''+CLOSE_TRANS) AS Remark,
     	LEFT(REAL_MULAI_OV_TIME, 4) AS OVT_IN_TIME,
     	LEFT(REAL_SELESAI_OV_TIME, 4) AS OVT_OUT_TIME,
+
 
     	CASE 
     	WHEN REAL_MULAI_OV_TIME > REAL_SELESAI_OV_TIME 
@@ -64,6 +64,13 @@ class download_spkl_m extends CI_Model
     	ORDER BY Remark DESC");
 
         return $query->result();
+    }
+
+    function  status_m($status_spkl)
+    {
+        $aortadb = $this->load->database("aorta", TRUE);
+        $query = $aortadb->query("UPDATE TT_KRY_OVERTIME set FLG_DOWNLOAD = 1
+        WHERE NO_SEQUENCE = '$status_spkl'");
     }
 
     function detail_m($no_spkl)

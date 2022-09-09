@@ -175,9 +175,10 @@ class download_spkl_c extends CI_Controller
     }
 
 
-    public function excel($no_spkl)
+    public function excel($no_spkl, $status_spkl)
     {
         $data['data_download'] = $this->download_spkl_m->excel_m($no_spkl);
+        $data['data_download'] = $this->download_spkl_m->status_m($status_spkl);
         $this->load->library('Excel');
 
 

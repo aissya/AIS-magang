@@ -277,10 +277,10 @@
 													<?php
 													if ($isi->FLG_DOWNLOAD == 1) {
 
-														echo '<p> <a class="btn btn-success" >Done</a> </p>';
+														echo '<p> <a class="btn-detail-class btn btn-success"  >Sudah Download</a> </p>';
 													} else {
 
-														echo '<p> <a class="btn btn-warning" >Not Downloaded</a> </p>';
+														echo '<p> <a class="btn-detail-class btn btn-warning"  >Belum Download</a> </p>';
 													}
 
 													?>
@@ -290,10 +290,10 @@
 
 
 												<td style="vertical-align: middle;text-align:center;">
-													<a href="<?php echo site_url('index.php/aorta/download_spkl_c/show/') . $isi->SPKL  ?>" class="btn-detail-class btn btn-primary" type="button" <i></i>Show</a>
+													<a href="<?php echo site_url('index.php/aorta/download_spkl_c/show/') . $isi->SPKL  ?>" class="btn-detail-class btn btn-primary" type="button">Show</a>
 
 
-													<a href="<?php echo site_url('index.php/aorta/download_spkl_c/excel/') . $isi->SPKL  ?>" class="btn btn-success"></>Download</a>
+													<a href="<?php echo site_url('index.php/aorta/download_spkl_c/excel/') . $isi->SPKL . "/" . $isi->SPKL  ?>" id="download_refresh" class="btn btn-success">Download</a>
 												</td>
 											</tr>
 
@@ -341,6 +341,11 @@
 <script src="<?php echo base_url('assets/js/dataTables.fixedColumns.min.js') ?>"></script>
 <link rel="stylesheet" href="<?php echo base_url('assets/css/fixedColumns.dataTables.min.css'); ?>">
 <script>
+	$('#download_refresh').click(function() {
+		location.reload();
+	});
+
+
 	// $('#download_coba').click(function(event) {
 	//     event.preventDefault();
 	//     $('.satu').multiDownload();
