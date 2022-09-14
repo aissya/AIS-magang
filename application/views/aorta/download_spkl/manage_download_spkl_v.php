@@ -203,34 +203,144 @@
 					</div>
 
 					<div class="grid-body">
-						<a href="<?php echo site_url('index.php/aorta/download_spkl_c/belum_GM/') ?>" class="btn-detail-class btn btn-primary" type="button" <i></i>Belum Cek GM</a>
+
+						<div>
+
+							<?php echo form_open('aorta/download_spkl_c/search', 'class="form-horizontal"'); ?>
+
+							<div class="form-row">
+
+
+
+								<div class="form-group">
+									<label class="col-lg-2 control-label">Dari :</label>
+									<div class="col-lg-4">
+										<input type="date" name="tgl_mulai" id="tgl_mulai" class="form-control" value="<?php echo $tgl_mulai ?>">
+									</div>
+								</div>
+
+
+
+								<div class="form-group">
+									<label class="col-lg-2 control-label">Sampai :</label>
+									<div class="col-lg-4">
+										<input type="date" name="tgl_selesai" id="tgl_selesai" class="form-control" value="<?php echo $tgl_selesai ?>">
+									</div>
+								</div>
+
+
+
+								<div class="form-group">
+									<label class="col-lg-2 control-label">Cek GM :</label>
+									<div class="col-lg-4">
+										<select class="form-control mb-2" name="cek_gm" id="cek_gm">
+											<option value="1">Sudah Cek GM</option>
+											<option value="0">Belum Cek GM</option>
+
+										</select>
+									</div>
+								</div>
+
+								<script type="text/javascript">
+									document.getElementById('cek_gm').value = "<?php echo $cek_gm ?>";
+								</script>
+
+
+
+
+								<div class="form-group">
+									<label class="col-lg-2 control-label">Status Download :<?php echo $status_download ?></label>
+									<div class="col-lg-4">
+										<select class="form-control mb-2" name="status_download" id="status_download">
+											<option value="1">Sudah Download</option>
+											<option value="0">Belum Download</option>
+
+										</select>
+									</div>
+								</div>
+
+								<script type="text/javascript">
+									document.getElementById('status_download').value = "<?php echo $status_download ?>";
+								</script>
+
+
+
+
+								<div class="form-group">
+									<label class="col-lg-2 control-label">Department :</label>
+									<div class="col-lg-4">
+										<select class="form-control mb-2" name="dept" id="dept">
+											<option value="ENG">ENG</option>
+											<option value="KQC">KQC</option>
+											<option value="OMD">OMD</option>
+											<option value="MIS">MIS</option>
+											<option value="MSU">MSU</option>
+											<option value="MTE">MTE</option>
+											<option value="PPC">PPC</option>
+											<option value="BRP">BRP</option>
+											<option value="ERP">ERP</option>
+											<option value="QUA">QUA</option>
+											<option value="PCO">PCO</option>
+
+										</select>
+									</div>
+								</div>
+
+								<script type="text/javascript">
+									document.getElementById('dept').value = "<?php echo $dept ?>";
+								</script>
+
+
+
+								<!-- <div class="form-group">
+									<label class="col-lg-2 control-label">Department:</label>
+									<div class="col-lg-4">
+										<select class="form-control mb-2" name="dept" id="dept">
+											<?php foreach ($all_dept as $row) { ?>
+
+												<option value="<?php echo $row->CHR_DEPT ?>"> <?php echo $row->CHR_DEPT ?> </option>
+											<?php } ?>
+										</select>
+									</div>
+								</div> -->
+
+
+
+								<div class="form-group">
+									<label class="col-lg-2 control-label"></label>
+									<div class="col-lg-4">
+										<button type="submit" name="filter_tgl" id="filter_tgl" class="btn btn-primary">Filter</button>
+									</div>
+								</div>
+
+
+								<!-- <div class="form-group col-md-3">
+									<label>To Date: </label>
+									<input type="date" name="to" id="toDate" class="datepicker btn-block" Placeholder="Select To Date" value="<?php echo isset($_GET['to']) ? $_GET['to'] : '' ?>">
+								</div>
+
+
+								<div class="form-group col-md-3">
+									<label>Product: </label>
+									<select class="custom-select" name="product" id="product" required>
+										<option value="">--Select Product--</option>
+										<option value="Milk">Milk</option>
+										<option value="Egg">Egg</option>
+									</select>
+								</div> -->
+
+
+							</div>
+							<?php echo form_close(); ?>
+
+						</div>
+
+
 
 						<div class="pull">
 							<table id='filter' width="100%">
 								<tr>
-									<!-- <td width="10%">
-										<select class="ddl" id="tanggal" onChange="document.location.href = this.options[this.selectedIndex].value;">
-											<?php for ($x = -3; $x <= 1; $x++) {
-												$y = $x * 28 ?>
-												<option value="<?php echo site_url('aorta/download_spkl_c/index/' . date("Ym", strtotime("+$y day"))); ?>" <?php
-																																							if ($period == date("Ym", strtotime("+$y day"))) {
-																																								echo 'SELECTED';
-																																							}
-																																							?>> <?php echo date("M Y", strtotime("+$y day")); ?> </option>
-											<?php } ?>
-										</select>
-									</td> -->
-									<!-- <td width="10%" style='text-align:left;' colspan="4">
-										<select onChange="document.location.href = this.options[this.selectedIndex].value;" class="ddl">
-											<?php foreach ($all_dept as $row) { ?>
-												<option value="<? echo site_url('aorta/quota_employee_c/index/' . $period . '/' . trim($row->CHR_DEPT) . '/' . $section); ?>" <?php
-																																												if (trim($dept) == trim($row->CHR_DEPT)) {
-																																													echo 'SELECTED';
-																																												}
-																																												?>><?php echo trim($row->CHR_DEPT); ?></option>
-											<?php } ?>
-										</select>
-									</td> -->
+
 
 									<td width="60%">
 									</td>
@@ -245,6 +355,12 @@
 
 
 											<th style="vertical-align: middle;text-align:center;">SPKL</th>
+
+											<th style="vertical-align: middle;text-align:center;">Trace</th>
+
+											<th style="vertical-align: middle;text-align:center;">Tanggal Overtime</th>
+
+											<th style="vertical-align: middle;text-align:center;">Dept</th>
 
 											<th style="vertical-align: middle;text-align:center;">Jumlah Karyawan</th>
 
@@ -266,6 +382,26 @@
 
 												<td style="vertical-align: middle;text-align:center;"><?= $isi->SPKL ?></td>
 
+												<td style="vertical-align: middle;text-align:center;">
+
+													<?php
+													if ($isi->TGL_OVERTIME < date("Ym") . "16") {
+
+														echo '<i class="fa fa-duotone fa-check" style="color:green;"></i>';
+													} else {
+
+														echo '<i class="fa fa-solid fa-minus"></i>';
+													}
+
+													?>
+
+
+												</td>
+
+												<td style="vertical-align: middle;text-align:center;"><?= $isi->TGL_OVERTIME ?></td>
+
+												<td style="vertical-align: middle;text-align:center;"><?= $isi->KD_DEPT ?></td>
+
 												<td style="vertical-align: middle;text-align:center;"><?= $isi->Karyawan ?></td>
 
 												<td style="vertical-align: middle;text-align:center;"><?= $isi->Plan_OT ?></td>
@@ -277,7 +413,8 @@
 													<?php
 													if ($isi->FLG_DOWNLOAD == 1) {
 
-														echo '<i class="fa fa-duotone fa-check"></i>';
+
+														echo '<i class="fa fa-duotone fa-check" style="color:green;"></i>';
 													} else {
 
 														echo '<i class="fa fa-solid fa-minus"></i>';
@@ -289,9 +426,11 @@
 												</td>
 
 
+
+
 												<td style="vertical-align: middle;text-align:center;">
 													<a href="<?php echo site_url('index.php/aorta/download_spkl_c/show/') . $isi->SPKL  ?>" class="btn-detail-class btn btn-primary" type="button">Show</a>
-
+													<!-- data-toggle="modal" data-target="#modal-detail" -->
 
 													<a href="<?php echo site_url('index.php/aorta/download_spkl_c/excel/') . $isi->SPKL . "/" . $isi->SPKL  ?>" id="download_refresh" class="btn btn-success">Download</a>
 												</td>
@@ -306,23 +445,9 @@
 
 							</div>
 						</div>
+
+
 					</div>
-
-					<!-- <div class="container">
-						<p>
-							<a href="<?php echo base_url('assets/img/2022060612.xls') ?>" class="satu_coba"> Download 1</a>
-						</p>
-
-						<p>
-							<a href="<?php echo base_url('assets/img/2022060627.xls') ?>" class="satu_coba"> Download 2</a>
-						</p>
-
-						<p>
-							<a href="#" id="download_coba" class="satu_coba"> Download All</a>
-						</p>
-					</div> -->
-
-
 
 
 				</div>
@@ -333,6 +458,117 @@
 
 	</section>
 </aside>
+
+
+
+
+
+<!-------------------------------------------------------------------------------------------------------------------------------------------->
+<!--                                                                                                                                        -->
+<!--                                                                                                                                        -->
+<!--                                                     START MODAL POP UP                                                                 -->
+<!--                                                                                                                                        -->
+<!--                                                                                                                                        -->
+<!-------------------------------------------------------------------------------------------------------------------------------------------->
+
+
+
+
+<div class="modal fade" id="modal-detail">
+	<div class="modal-dialog">
+		<div class="modal-content">
+
+			<div class="modal-header">
+				<h5 class="modal-title">SPKL</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+
+			<div class="modal-body table responsive">
+				<table id="dataTables3" class="table table-condensed  table-striped table-hover display" cellspacing="0" width="100%">
+					<thead>
+						<tr>
+
+							<!--A -->
+							<th style="vertical-align: middle;text-align:center;">Reference No</th>
+							<!--B -->
+							<th style="vertical-align: middle;text-align:center;">Employee ID</th>
+							<!--C -->
+							<th style="vertical-align: middle;text-align:center;">Overtime Date</th>
+							<!--D -->
+							<th style="vertical-align: middle;text-align:center;">Reference Date</th>
+							<!--E -->
+							<th style="vertical-align: middle;text-align:center;">Overtime In Date</th>
+							<!--F -->
+							<th style="vertical-align: middle;text-align:center;">Overtime In Time</th>
+							<!--G -->
+							<th style="vertical-align: middle;text-align:center;">Overtime Out Date</th>
+							<!--H -->
+							<th style="vertical-align: middle;text-align:center;">Overtime Out Time</th>
+							<!--I -->
+							<th style="vertical-align: middle;text-align:center;">Remark</th>
+
+						</tr>
+					</thead>
+					<tbody>
+
+						<?php foreach ($detail_data_download as $key) : ?>
+							<tr>
+								<!--A -->
+								<!--Reference NO -->
+								<td style="vertical-align: middle;text-align:center;"><?= $key->Reference ?></td>
+								<!--B -->
+								<!--Employee ID -->
+								<td style="vertical-align: middle;text-align:center;"><?= $key->NPK ?></td>
+								<!--C -->
+								<!--Overtime Date -->
+								<td style="vertical-align: middle;text-align:center;"><?= $key->TGL_OVERTIME ?></td>
+								<!--D -->
+								<!--Reference Date -->
+								<td style="vertical-align: middle;text-align:center;"><?= $key->TGL_ENTRY ?></td>
+								<!--E -->
+								<!--Overtime In Date -->
+								<td style="vertical-align: middle;text-align:center;"><?= $key->TGL_OVERTIME ?></td>
+								<!--F -->
+								<!--Overtime In Time -->
+								<!-- --ambil 4 angka didepan-- LEFT di query -->
+								<!-- --REAL_MULAI_OV_TIME-- -->
+								<td style="vertical-align: middle;text-align:center;"><?= $key->OVT_IN_TIME ?></td>
+								<!--G -->
+								<!-- Overtime Out Date -->
+								<!-- --ada tambahan if-- CASE WHEN di query -->
+								<td style="vertical-align: middle;text-align:center;"><?= $key->OVT_OUT_DATE ?></td>
+								<!--H -->
+								<!-- Overtime Out Time -->
+								<!-- --ambil 4 angka didepan-- LEFT di query -->
+								<!-- --REAL_OV_TIME-- -->
+								<td style="vertical-align: middle;text-align:center;"><?= $key->OVT_OUT_TIME ?></td>
+								<!--I -->
+								<!-- Remark -->
+								<!--NO SEQUENCE + CLOSE_TRANS -- CONCAT di query -->
+								<td style="vertical-align: middle;text-align:center;"><?= $key->Remark ?></td>
+
+
+							</tr>
+
+						<?php endforeach; ?>
+
+
+
+					</tbody>
+				</table>
+
+			</div>
+
+
+
+		</div>
+	</div>
+</div>
+
+
+
 <script src="<?php echo base_url('assets/js/jquery.dataTables.min.js') ?>"></script>
 <script src="<?php echo base_url('assets/js/jquery.multiDownload.js') ?>"></script>
 <script src="<?php echo base_url('assets/js/refresh.js') ?>"></script>
@@ -375,13 +611,3 @@
 	//                                                 $('.dataTables_filter input').attr('placeholder', 'Search');
 	//                                             });
 </script>
-<!-- 
-href="<?php echo site_url('index.php/aorta/download_spkl_c/excel_all/')   ?>" -->
-<!-- 
-<a class="satu" href="<?php echo site_url('index.php/aorta/download_spkl_c/excel/') . $isi->SPKL  ?>"></>Download</a>
-                                        -->
-
-
-<!-- <a href="<?php echo base_url('index.php/img/' . $isi->SPKL . '.xls'); ?>" class="btn-detail-class btn btn-primary" type="button" <i></i>Show</a>
-
- -->

@@ -34,7 +34,7 @@ class download_spkl_c extends CI_Controller
     }
 
 
-    function index($period = null, $dept = null, $section = null, $msg = NULL)
+    function index($msg = NULL)
     {
 
         if ($msg == 1) {
@@ -67,25 +67,193 @@ class download_spkl_c extends CI_Controller
         $id_group = $user_session['GROUPDEPT'];
         $id_division = $user_session['DIVISION'];
 
-        if ($period == NULL) {
-            $period = date('Ym');
-        }
 
         $data['npk'] = $npk;
         $data['role'] = $role;
-        $data['dept'] = $dept;
-        $data['section'] = $section;
-        $data['period'] = $period;
 
 
-        $data['data_download'] = $this->download_spkl_m->get();
-        // $data['data_if'] = $this->download_spkl_m->get_concat();
-        // print_r($data['data_download']);
-        // exit;
+        $mulai = 20210701;
+        $selesai = 20210728;
+        $gm = 1;
+        $deptart = 'MIS';
+        $download = 0;
+
+
+        $data['tgl_mulai'] = substr($mulai, 0, 4) . '-' . substr($mulai, 4, 2) . '-' . substr($mulai, 6, 2); //untuk merubah format dari 20210701 menjadi 2021-07-01
+        $data['tgl_selesai'] = substr($selesai, 0, 4) . '-' . substr($selesai, 4, 2) . '-' . substr($selesai, 6, 2);
+        $data['cek_gm'] = $gm;
+        $data['dept'] = $deptart;
+        $data['status_download'] = $download;
+
+
+        $data['data_download'] = $this->download_spkl_m->get($mulai, $selesai, $gm, $deptart, $download);
+
+
+        // $no_spkl = 2021070776;
+        // $data['detail_data_download'] = $this->download_spkl_m->detail_m($no_spkl);
+
 
         $data['content'] = 'aorta/download_spkl/manage_download_spkl_v'; // NAMA VIEW 
         $this->load->view($this->layout, $data);
     }
+
+    function search($msg = NULL)
+    {
+
+        if ($msg == 1) {
+            $msg = "<div class = 'alert alert-info'><button type = 'button' class = 'close' data-dismiss = 'alert'>&times;</button><strong>Creating success </strong> The data is successfully created </div >";
+        } elseif ($msg == 2) {
+            $msg = "<div class = 'alert alert-info'><button type = 'button' class = 'close' data-dismiss = 'alert'>&times;</button><strong>Updating success </strong> The data is successfully updated </div >";
+        } elseif ($msg == 3) {
+            $msg = "<div class = 'alert alert-info'><button type = 'button' class = 'close' data-dismiss = 'alert'>&times;</button><strong>Deleted success </strong> The data is successfully deleted </div >";
+        } elseif ($msg == 13) {
+            $msg = "<div class = 'alert alert-danger'><button type = 'button' class = 'close' data-dismiss = 'alert'>&times;</button><strong>Delete failed !</strong> Quota ini sudah disetujui / dalam proses persetujuan, tidak bisa didelete </div >";
+        } elseif ($msg == 15) {
+            $msg = "<div class = 'alert alert-danger'><button type = 'button' class = 'close' data-dismiss = 'alert'>&times;</button><strong>Executing error !</strong> Template Anda Salah atau sudah diubah, Silahkan Coba Lagi Dengan Template Yang Benar </div >";
+        } elseif ($msg == 12) {
+            $msg = "<div class = 'alert alert-danger'><button type = 'button' class = 'close' data-dismiss = 'alert'>&times;</button><strong>Executing error !</strong> Something error with parameter </div >";
+        }
+
+        $data['app'] = $this->role_module_m->get_app();
+        $data['module'] = $this->role_module_m->get_module();
+        $data['function'] = $this->role_module_m->get_function();
+        $data['sidebar'] = $this->role_module_m->side_bar(356);
+        $data['news'] = $this->news_m->get_news();
+        $data['title'] = 'Download SPKL';
+        $data['msg'] = $msg;
+
+
+        $user_session = $this->session->all_userdata();
+        $npk = $user_session['NPK'];
+        $role = $user_session['ROLE'];
+        $id_dept = $user_session['DEPT'];
+        $id_group = $user_session['GROUPDEPT'];
+        $id_division = $user_session['DIVISION'];
+
+
+        $data['npk'] = $npk;
+        $data['role'] = $role;
+
+
+        $mulai = $this->input->post("tgl_mulai");
+        $selesai = $this->input->post("tgl_selesai");
+        $gm = $this->input->post("cek_gm");
+        $deptart = $this->input->post("dept");
+        $download = $this->input->post("status_download");
+
+
+        $data['tgl_mulai'] = $mulai; //mengambil value 2021-07-01 dari view
+        $data['tgl_selesai'] = $selesai;
+        $data['cek_gm'] = $gm;
+        $data['dept'] = $deptart;
+        $data['status_download'] = $download;
+
+
+
+        $mulai = str_replace("-", "", "$mulai"); //untuk merubah format date dari 2021-07-01 menjadi 20210701
+        $selesai = str_replace("-", "", "$selesai");
+
+
+
+        $data['data_download'] = $this->download_spkl_m->get($mulai, $selesai, $gm, $deptart, $download);
+
+
+        $data['content'] = 'aorta/download_spkl/manage_download_spkl_v'; // NAMA VIEW 
+        $this->load->view($this->layout, $data);
+    }
+
+    // function index_lama($cek_gm = NULL, $dept = NULL, $section = null, $msg = NULL)
+    // {
+
+    //     if ($msg == 1) {
+    //         $msg = "<div class = 'alert alert-info'><button type = 'button' class = 'close' data-dismiss = 'alert'>&times;</button><strong>Creating success </strong> The data is successfully created </div >";
+    //     } elseif ($msg == 2) {
+    //         $msg = "<div class = 'alert alert-info'><button type = 'button' class = 'close' data-dismiss = 'alert'>&times;</button><strong>Updating success </strong> The data is successfully updated </div >";
+    //     } elseif ($msg == 3) {
+    //         $msg = "<div class = 'alert alert-info'><button type = 'button' class = 'close' data-dismiss = 'alert'>&times;</button><strong>Deleted success </strong> The data is successfully deleted </div >";
+    //     } elseif ($msg == 13) {
+    //         $msg = "<div class = 'alert alert-danger'><button type = 'button' class = 'close' data-dismiss = 'alert'>&times;</button><strong>Delete failed !</strong> Quota ini sudah disetujui / dalam proses persetujuan, tidak bisa didelete </div >";
+    //     } elseif ($msg == 15) {
+    //         $msg = "<div class = 'alert alert-danger'><button type = 'button' class = 'close' data-dismiss = 'alert'>&times;</button><strong>Executing error !</strong> Template Anda Salah atau sudah diubah, Silahkan Coba Lagi Dengan Template Yang Benar </div >";
+    //     } elseif ($msg == 12) {
+    //         $msg = "<div class = 'alert alert-danger'><button type = 'button' class = 'close' data-dismiss = 'alert'>&times;</button><strong>Executing error !</strong> Something error with parameter </div >";
+    //     }
+
+    //     $data['app'] = $this->role_module_m->get_app();
+    //     $data['module'] = $this->role_module_m->get_module();
+    //     $data['function'] = $this->role_module_m->get_function();
+    //     $data['sidebar'] = $this->role_module_m->side_bar(356);
+    //     $data['news'] = $this->news_m->get_news();
+    //     $data['title'] = 'Download SPKL';
+    //     $data['msg'] = $msg;
+
+
+    //     $user_session = $this->session->all_userdata();
+    //     $npk = $user_session['NPK'];
+    //     $role = $user_session['ROLE'];
+    //     $id_dept = $user_session['DEPT'];
+    //     $id_group = $user_session['GROUPDEPT'];
+    //     $id_division = $user_session['DIVISION'];
+
+    //     // if ($period == NULL) {
+    //     //     $period = date('Ym');
+    //     // }
+
+    //     if ($role == 25) {
+    //         if ($dept == NULL) {
+    //             $dept = $this->dept_m->get_top_data_dept_by_division($id_division)->row()->CHR_DEPT;
+    //         } else {
+    //             $dept = $dept;
+    //         }
+    //         $data['all_dept'] = $this->dept_m->get_dept_by_division_id($id_division);
+    //     } else if ($role == 33) {
+    //         if ($dept == NULL) {
+    //             $dept = $this->dept_m->get_top_data_dept_by_groupdept($id_group)->row()->CHR_DEPT;
+    //         } else {
+    //             $dept = $dept;
+    //         }
+    //         $data['all_dept'] = $this->dept_m->get_dept_by_groupdept($id_group);
+    //     } else {
+    //         if ($dept == NULL) {
+    //             $dept = $this->dept_m->get_data_dept($id_dept)->row()->CHR_DEPT;
+    //         } else {
+    //             $dept = $dept;
+    //         }
+    //         $data['all_dept'] = $this->dept_m->get_data_dept($id_dept)->result();
+    //     }
+
+
+    //     if ($cek_gm == NULL) {
+    //         $cek_gm = 1;
+    //     }
+
+    //     $data['all_gm'] = $this->download_spkl_m->get_gm_m();
+
+
+
+    //     // $mulai = $this->input->POST("tgl_mulai");
+    //     // $selesai = $this->input->POST("tgl_selesai");
+
+
+
+    //     // $data['dept'] = $dept;
+    //     // $data['period'] = $period;
+    //     $data['npk'] = $npk;
+    //     $data['role'] = $role;
+    //     $data['dept'] = trim($dept);
+    //     $data['section'] = $section;
+
+    //     $data['cek_gm'] = $cek_gm;
+
+
+
+
+    //     $data['data_download'] = $this->download_spkl_m->get($cek_gm, $data['dept']);
+
+    //     $data['content'] = 'aorta/download_spkl/manage_download_spkl_v'; // NAMA VIEW 
+    //     $this->load->view($this->layout, $data);
+    // }
+    //filter wtih get
 
 
     function belum_GM($period = null, $dept = null, $section = null, $msg = NULL)
@@ -281,6 +449,62 @@ class download_spkl_c extends CI_Controller
 
 
 
+
+
+
+        // if ($period == NULL) {
+        //     $period = date('Ym');
+        // }
+
+
+        // if ($role == 25) {
+        //     if ($dept == NULL) {
+        //         $dept = $this->dept_m->get_top_data_dept_by_division($id_division)->row()->CHR_DEPT;
+        //     } else {
+        //         $dept = $dept;
+        //     }
+        //     $data['all_dept'] = $this->dept_m->get_dept_by_division_id($id_division);
+        // } else if ($role == 33) {
+        //     if ($dept == NULL) {
+        //         $dept = $this->dept_m->get_top_data_dept_by_groupdept($id_group)->row()->CHR_DEPT;
+        //     } else {
+        //         $dept = $dept;
+        //     }
+        //     $data['all_dept'] = $this->dept_m->get_dept_by_groupdept($id_group);
+        // } else {
+        //     if ($dept == NULL) {
+        //         $dept = $this->dept_m->get_data_dept($id_dept)->row()->CHR_DEPT;
+        //     } else {
+        //         $dept = $dept;
+        //     }
+        //     $data['all_dept'] = $this->dept_m->get_data_dept($id_dept)->result();
+        // }
+
+
+        // if ($cek_gm == NULL) {
+        //     $cek_gm = 1;
+        // }
+
+        // $data['all_gm'] = $this->download_spkl_m->get_gm_m();
+
+
+
+        // $mulai = $this->input->POST("tgl_mulai");
+        // $selesai = $this->input->POST("tgl_selesai");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     // /* public function excel() {
     //     $data['content'] = 'aorta/download_spkl/manage_download_spkl_v';
     //     $this->load->view($this->layout, $data);
@@ -393,3 +617,13 @@ class download_spkl_c extends CI_Controller
 
         // $writer = PHPExcel_IOFactory::createwriter($object, 'Excel2007');
         // $writer->save('php://output');
+
+
+        
+
+        // $data['data_download'] = $this->download_spkl_m->get($tgl_mulai, $tgl_selesai);
+
+
+        // $data['data_if'] = $this->download_spkl_m->get_concat();
+        // print_r($data['data_download']);
+        // exit;
