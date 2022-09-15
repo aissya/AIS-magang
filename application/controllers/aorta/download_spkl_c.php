@@ -75,8 +75,10 @@ class download_spkl_c extends CI_Controller
         $mulai = 20210701;
         $selesai = 20210728;
         $gm = 1;
-        $deptart = 'MIS';
+        $deptart = 'ALL';
         $download = 0;
+
+
 
 
         $data['tgl_mulai'] = substr($mulai, 0, 4) . '-' . substr($mulai, 4, 2) . '-' . substr($mulai, 6, 2); //untuk merubah format dari 20210701 menjadi 2021-07-01
@@ -84,6 +86,7 @@ class download_spkl_c extends CI_Controller
         $data['cek_gm'] = $gm;
         $data['dept'] = $deptart;
         $data['status_download'] = $download;
+
 
 
         $data['data_download'] = $this->download_spkl_m->get($mulai, $selesai, $gm, $deptart, $download);
