@@ -12,24 +12,24 @@ class download_spkl_m extends CI_Model
     {
         $aortadb = $this->load->database("aorta", TRUE);
         if ($deptart == "ALL") {
-            $query = $aortadb->query("SELECT DISTINCT TOP 100 NO_SEQUENCE AS SPKL, FLG_DOWNLOAD, KD_DEPT, TGL_OVERTIME,
+            $query = $aortadb->query("SELECT DISTINCT TOP 100 NO_SEQUENCE AS SPKL, FLG_DOWNLOAD, KD_DEPT, TGL_OVERTIME, CEK_GM,
             COUNT(DISTINCT NPK) AS Karyawan, 
             ROUND(SUM(cast(RENC_DURASI_OV_TIME AS float))/60 ,2) as Plan_OT,
             ROUND(cast(SUM(cast(REAL_DURASI_OV_TIME AS float))/60 AS FLOAT), 2) as Real_OT
 
             FROM TT_KRY_OVERTIME 
             WHERE   CEK_GM = '$gm' AND  TGL_OVERTIME BETWEEN '$mulai' AND '$selesai' AND FLG_DOWNLOAD = '$download'
-            GROUP BY NO_SEQUENCE, FLG_DOWNLOAD, KD_DEPT, TGL_OVERTIME
+            GROUP BY NO_SEQUENCE, FLG_DOWNLOAD, KD_DEPT, TGL_OVERTIME, CEK_GM
             ORDER BY NO_SEQUENCE desc");
         } else {
-            $query = $aortadb->query("SELECT DISTINCT TOP 100 NO_SEQUENCE AS SPKL, FLG_DOWNLOAD, KD_DEPT, TGL_OVERTIME,
+            $query = $aortadb->query("SELECT DISTINCT TOP 100 NO_SEQUENCE AS SPKL, FLG_DOWNLOAD, KD_DEPT, TGL_OVERTIME, CEK_GM,
             COUNT(DISTINCT NPK) AS Karyawan, 
             ROUND(SUM(cast(RENC_DURASI_OV_TIME AS float))/60 ,2) as Plan_OT,
             ROUND(cast(SUM(cast(REAL_DURASI_OV_TIME AS float))/60 AS FLOAT), 2) as Real_OT
 
             FROM TT_KRY_OVERTIME 
             WHERE   CEK_GM = '$gm' AND KD_DEPT = '$deptart' AND  TGL_OVERTIME BETWEEN '$mulai' AND '$selesai' AND FLG_DOWNLOAD = '$download'
-            GROUP BY NO_SEQUENCE, FLG_DOWNLOAD, KD_DEPT, TGL_OVERTIME
+            GROUP BY NO_SEQUENCE, FLG_DOWNLOAD, KD_DEPT, TGL_OVERTIME, CEK_GM
             ORDER BY NO_SEQUENCE desc");
         }
 
@@ -136,6 +136,25 @@ class download_spkl_m extends CI_Model
         FROM TT_KRY_OVERTIME 
     	WHERE CEK_GM = 1 AND NO_SEQUENCE ='$no_spkl'
     	ORDER BY Remark DESC");
+
+        return $query->result();
+    }
+
+    function excel_list_m($mulai, $selesai, $gm, $deptart, $download)
+    {
+        $aortadb = $this->load->database("aorta", TRUE);
+
+        $query = $aortadb->query("SELECT DISTINCT TOP 100 NO_SEQUENCE AS SPKL, KD_DEPT, TGL_OVERTIME,
+        COUNT(DISTINCT NPK) AS Karyawan, 
+        ROUND(SUM(cast(RENC_DURASI_OV_TIME AS float))/60 ,2) as Plan_OT,
+        ROUND(cast(SUM(cast(REAL_DURASI_OV_TIME AS float))/60 AS FLOAT), 2) as Real_OT
+
+        FROM TT_KRY_OVERTIME 
+        WHERE   CEK_GM = '$gm' AND KD_DEPT = '$deptart' AND  TGL_OVERTIME BETWEEN '$mulai' AND '$selesai' AND FLG_DOWNLOAD = '$download'
+        GROUP BY NO_SEQUENCE, FLG_DOWNLOAD, KD_DEPT, TGL_OVERTIME
+        ORDER BY NO_SEQUENCE desc");
+
+
 
         return $query->result();
     }

@@ -72,8 +72,8 @@ class download_spkl_c extends CI_Controller
         $data['role'] = $role;
 
 
-        $mulai = 20210701;
-        $selesai = 20210728;
+        $mulai = 20210716;
+        $selesai = 20210815;
         $gm = 1;
         $deptart = 'ALL';
         $download = 0;
@@ -151,10 +151,92 @@ class download_spkl_c extends CI_Controller
         $data['dept'] = $deptart;
         $data['status_download'] = $download;
 
-
-
         $mulai = str_replace("-", "", "$mulai"); //untuk merubah format date dari 2021-07-01 menjadi 20210701
         $selesai = str_replace("-", "", "$selesai");
+
+        if ($this->input->post("download_list")) {
+
+
+
+            $data['data_download'] = $this->download_spkl_m->get($mulai, $selesai, $gm, $deptart, $download);
+            // print_r($mulai);
+            // exit();
+
+            $this->load->library('Excel');
+
+
+            $object = new PHPExcel();
+
+            $object->getProperties()->setCreator("Aisin Indonesia");
+            $object->getProperties()->setLastModifiedBy("Aisin Indonesia");
+            $object->getProperties()->setTitle("SPKL");
+            $object->getProperties()->setSubject("SPKL");
+            $object->getProperties()->setDescription("SPKL");
+
+            // $object->setActiveSheetIndex(0);
+
+            //SETUP EXCEL
+            $object->setActiveSheetIndex();
+            $worksheet = $object->getActiveSheet();
+            // $worksheet->setTitle($period . "_" . $dept);
+
+            //WIDTH
+            $worksheet->getColumnDimension('A')->setWidth(12.14);
+            $worksheet->getColumnDimension('B')->setWidth(18.29);
+            $worksheet->getColumnDimension('C')->setWidth(13.71);
+            $worksheet->getColumnDimension('D')->setWidth(16.14);
+            $worksheet->getColumnDimension('E')->setWidth(17.57);
+            $worksheet->getColumnDimension('F')->setWidth(17.29);
+
+            $worksheet->getStyle("A:I")->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
+            // $worksheet->getStyle("A1:I1")->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+
+            $styleArray = [
+                'font' => [
+                    'size'  =>  10,
+                    'name'  =>  'Arial'
+                ],
+
+            ];
+            $worksheet->getStyle("A:I")->applyFromArray($styleArray);
+
+            //HEADER
+            $worksheet->setCellValue('A1', 'SPKL');
+            $worksheet->setCellValue('B1', 'Tanggal Overtime');
+            $worksheet->setCellValue('C1', 'Dept');
+            $worksheet->setCellValue('D1', 'Jumlah Karyawan');
+            $worksheet->setCellValue('E1', 'Plan Overtime');
+            $worksheet->setCellValue('F1', 'Real Overtime');
+
+
+            $baris = 2;
+
+
+            foreach ($data['data_download'] as  $isi) {
+                $worksheet->setCellValue('A' . $baris, $isi->SPKL);
+                $worksheet->setCellValue('B' . $baris, $isi->TGL_OVERTIME);
+                $worksheet->setCellValue('C' . $baris, $isi->KD_DEPT);
+                $worksheet->setCellValue('D' . $baris, $isi->Karyawan);
+                $worksheet->setCellValue('E' . $baris, $isi->Plan_OT);
+                $worksheet->setCellValue('F' . $baris, $isi->Real_OT);
+
+
+                $baris++;
+            }
+
+
+            $filename = "List"  . ".xlt";
+            ob_end_clean();
+            header('Content-Type: application/vnd.ms-excel');
+            header('Content-Disposition: attachment;filename="' . trim($filename) . '"');
+            header('Cache-Control: max-age=0');
+
+            $writer = PHPExcel_IOFactory::createWriter($object, 'Excel5');
+            $writer->save('php://output');
+
+            exit;
+        }
+
 
 
 
@@ -348,8 +430,8 @@ class download_spkl_c extends CI_Controller
 
     public function excel($no_spkl, $status_spkl)
     {
-        $data['data_download'] = $this->download_spkl_m->status_m($status_spkl);
-        $data['data_download'] = $this->download_spkl_m->excel_m($no_spkl);
+        $data['data_download'] = $this->download_spkl_m->status_m($status_spkl); //untuk update flg_download ketika di download
+        $data['data_download'] = $this->download_spkl_m->excel_m($no_spkl); //untuk download sesuai format excel
 
         $this->load->library('Excel');
 
@@ -424,6 +506,89 @@ class download_spkl_c extends CI_Controller
 
 
         $filename = $no_spkl  . ".xlt";
+        ob_end_clean();
+        header('Content-Type: application/vnd.ms-excel');
+        header('Content-Disposition: attachment;filename="' . trim($filename) . '"');
+        header('Cache-Control: max-age=0');
+
+        $writer = PHPExcel_IOFactory::createWriter($object, 'Excel5');
+        $writer->save('php://output');
+
+        exit;
+    }
+
+    public function excel_list()
+    {
+
+
+        $data['data_download'] = $this->download_spkl_m->get(); //untuk download sesuai format excel
+
+
+
+        $this->load->library('Excel');
+
+
+        $object = new PHPExcel();
+
+        $object->getProperties()->setCreator("Aisin Indonesia");
+        $object->getProperties()->setLastModifiedBy("Aisin Indonesia");
+        $object->getProperties()->setTitle("SPKL");
+        $object->getProperties()->setSubject("SPKL");
+        $object->getProperties()->setDescription("SPKL");
+
+        // $object->setActiveSheetIndex(0);
+
+        //SETUP EXCEL
+        $object->setActiveSheetIndex();
+        $worksheet = $object->getActiveSheet();
+        // $worksheet->setTitle($period . "_" . $dept);
+
+        //WIDTH
+        $worksheet->getColumnDimension('A')->setWidth(12.14);
+        $worksheet->getColumnDimension('B')->setWidth(18.29);
+        $worksheet->getColumnDimension('C')->setWidth(13.71);
+        $worksheet->getColumnDimension('D')->setWidth(16.14);
+        $worksheet->getColumnDimension('E')->setWidth(17.57);
+        $worksheet->getColumnDimension('F')->setWidth(17.29);
+
+        $worksheet->getStyle("A:I")->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
+        // $worksheet->getStyle("A1:I1")->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
+
+        $styleArray = [
+            'font' => [
+                'size'  =>  10,
+                'name'  =>  'Arial'
+            ],
+
+        ];
+        $worksheet->getStyle("A:I")->applyFromArray($styleArray);
+
+        //HEADER
+        $worksheet->setCellValue('A1', 'SPKL');
+        $worksheet->setCellValue('B1', 'Tanggal Overtime');
+        $worksheet->setCellValue('C1', 'Dept');
+        $worksheet->setCellValue('D1', 'Jumlah Karyawan');
+        $worksheet->setCellValue('E1', 'Plan Overtime');
+        $worksheet->setCellValue('F1', 'Real Overtime');
+
+
+        $baris = 2;
+
+
+        foreach ($data['data_download'] as  $isi) {
+            $worksheet->setCellValue('A' . $baris, $isi->SPKL);
+            $worksheet->setCellValue('B' . $baris, $isi->TGL_OVERTIME);
+            $worksheet->setCellValue('C' . $baris, $isi->KD_DEPT);
+            $worksheet->setCellValue('D' . $baris, $isi->Karyawan);
+            $worksheet->setCellValue('E' . $baris, $isi->Plan_OT);
+            $worksheet->setCellValue('F' . $baris, $isi->Real_OT);
+
+
+            $baris++;
+        }
+
+
+        $filename = "List"  . ".xlt";
         ob_end_clean();
         header('Content-Type: application/vnd.ms-excel');
         header('Content-Disposition: attachment;filename="' . trim($filename) . '"');

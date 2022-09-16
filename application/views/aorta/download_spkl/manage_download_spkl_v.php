@@ -142,6 +142,33 @@
 		border-radius: 50%;
 		background: white;
 	}
+
+	.vertical-alignment-helper {
+		/* untuk form ditengah */
+		display: table;
+		height: 100%;
+		width: 100%;
+		pointer-events: none;
+	}
+
+
+	.vertical-align-center {
+		/* To center vertically */
+		display: table-cell;
+		vertical-align: middle;
+		pointer-events: none;
+	}
+
+	.modal-content {
+		/* Bootstrap sets the size of the modal in the modal-dialog class, we need to inherit it  center*/
+		width: fit-content;
+		max-width: fit-content;
+		/* For Bootstrap 4 - to avoid the modal window stretching full width */
+		height: inherit;
+		/* To center horizontally */
+		margin: 0 auto;
+		pointer-events: all;
+	}
 </style>
 
 
@@ -249,7 +276,7 @@
 
 
 								<div class="form-group">
-									<label class="col-lg-2 control-label">Status Download :<?php echo $status_download ?></label>
+									<label class="col-lg-2 control-label">Status Download :</label>
 									<div class="col-lg-4">
 										<select class="form-control mb-2" name="status_download" id="status_download">
 											<option value="1">Sudah Download</option>
@@ -310,9 +337,12 @@
 								<div class="form-group">
 									<label class="col-lg-2 control-label"></label>
 									<div class="col-lg-4">
-										<button type="submit" name="filter_tgl" id="filter_tgl" class="btn btn-primary">Filter</button>
+										<button type="submit" name="filter_tgl" id="filter_tgl" value="1" class="btn btn-primary">Filter</button>
+										<button type="submit" name="download_list" id="download_list" value="1" class="btn btn-warning">Download List</button>
 									</div>
 								</div>
+
+
 
 
 								<!-- <div class="form-group col-md-3">
@@ -386,7 +416,7 @@
 												<td style="vertical-align: middle;text-align:center;">
 
 													<?php
-													if ($isi->TGL_OVERTIME < date("Ym") . "16") {
+													if ($isi->TGL_OVERTIME < date("202107") . "30") {
 
 														echo '<i class="fa fa-duotone fa-check" style="color:green;"></i>';
 													} else {
@@ -414,11 +444,12 @@
 													<?php
 													if ($isi->FLG_DOWNLOAD == 1) {
 
-
-														echo '<i class="fa fa-duotone fa-check" style="color:green;"></i>';
+														$filepath = '../../assets/img/check.png';
+														echo '<img src="' . $filepath . '" height="20">';
 													} else {
 
-														echo '<i class="fa fa-solid fa-minus"></i>';
+														$filepath = '../../assets/img/nocheck.png';
+														echo '<img src="' . $filepath . '" height="20">';
 													}
 
 													?>
@@ -432,7 +463,7 @@
 												<td style="vertical-align: middle;text-align:center;">
 													<a data-toggle="modal" data-target="#modal-detail<?php echo $isi->SPKL  ?>" class="btn-detail-class btn btn-primary" type="button">Show</a>
 													<!-- data-toggle="modal" data-target="#modal-detail" -->
-													<!-- href="<?php echo site_url('index.php/aorta/download_spkl_c/show/') . $isi->SPKL  ?>"  -->
+
 
 													<a href="<?php echo site_url('index.php/aorta/download_spkl_c/excel/') . $isi->SPKL . "/" . $isi->SPKL  ?>" id="download_refresh" class="btn btn-success">Download</a>
 												</td>
@@ -445,7 +476,19 @@
 									</tbody>
 								</table>
 
+								<div class="pull">
+									<table id='filter' width="100%">
+										<tr>
+											<!-- <a href="<?php echo site_url('index.php/aorta/download_spkl_c/excel_list/') . $tgl_mulai . "/" . $tgl_selesai . "/" .  $cek_gm . "/" .  $status_download . "/" . $dept ?>" id="download_refresh" class="btn btn-success">Download List</a>
+ -->
+
+											<td width="60%">
+											</td>
+									</table>
+								</div>
 							</div>
+
+
 						</div>
 
 
@@ -476,51 +519,53 @@
 
 
 <?php foreach ($data_download as $isi) : ?>
-	<div class="modal fade" id="modal-detail<?php echo $isi->SPKL  ?>">
-		<div class="modal-dialog">
-			<div class="modal-content">
+	<div class="container">
+		<div class="modal fade" id="modal-detail<?php echo $isi->SPKL  ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+			<div class="vertical-alignment-helper">
+				<div class="modal-dialog vertical-align-center" role="document">
+					<div class="modal-content">
 
-				<div class="modal-header">
-					<h5 class="modal-title">SPKL <?php echo $isi->SPKL  ?></h5>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLongTitle">SPKL <?php echo $isi->SPKL  ?></h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
 
-				<div class="modal-body table responsive">
-					<table id="dataTables3" class="table table-condensed  table-striped table-hover display" cellspacing="0" width="100%">
-						<thead>
-							<tr>
+						<div class="modal-body table responsive">
+							<table id="dataTables3" class="table table-condensed  table-striped table-hover display" cellspacing="0" width="100%">
+								<thead>
+									<tr>
 
-								<!--A -->
-								<th style="vertical-align: middle;text-align:center;">Reference No</th>
-								<!--B -->
-								<th style="vertical-align: middle;text-align:center;">Employee ID</th>
-								<!--C -->
-								<th style="vertical-align: middle;text-align:center;">Overtime Date</th>
-								<!--D -->
-								<th style="vertical-align: middle;text-align:center;">Reference Date</th>
-								<!--E -->
-								<th style="vertical-align: middle;text-align:center;">Overtime In Date</th>
-								<!--F -->
-								<th style="vertical-align: middle;text-align:center;">Overtime In Time</th>
-								<!--G -->
-								<th style="vertical-align: middle;text-align:center;">Overtime Out Date</th>
-								<!--H -->
-								<th style="vertical-align: middle;text-align:center;">Overtime Out Time</th>
-								<!--I -->
-								<th style="vertical-align: middle;text-align:center;">Remark</th>
+										<!--A -->
+										<th style="vertical-align: middle;text-align:center;">Reference No</th>
+										<!--B -->
+										<th style="vertical-align: middle;text-align:center;">Employee ID</th>
+										<!--C -->
+										<th style="vertical-align: middle;text-align:center;">Overtime Date</th>
+										<!--D -->
+										<th style="vertical-align: middle;text-align:center;">Reference Date</th>
+										<!--E -->
+										<th style="vertical-align: middle;text-align:center;">Overtime In Date</th>
+										<!--F -->
+										<th style="vertical-align: middle;text-align:center;">Overtime In Time</th>
+										<!--G -->
+										<th style="vertical-align: middle;text-align:center;">Overtime Out Date</th>
+										<!--H -->
+										<th style="vertical-align: middle;text-align:center;">Overtime Out Time</th>
+										<!--I -->
+										<th style="vertical-align: middle;text-align:center;">Remark</th>
 
-							</tr>
-						</thead>
-						<tbody>
+									</tr>
+								</thead>
+								<tbody>
 
 
-							<?php
+									<?php
 
-							$detail_data_download = $aortadb = $this->load->database("aorta", TRUE);
+									$detail_data_download = $aortadb = $this->load->database("aorta", TRUE);
 
-							$query = $aortadb->query("SELECT NO_SEQUENCE,NPK, CEK_GM, TGL_OVERTIME, TGL_ENTRY, REAL_MULAI_OV_TIME, REAL_SELESAI_OV_TIME,
+									$query = $aortadb->query("SELECT NO_SEQUENCE,NPK, CEK_GM, TGL_OVERTIME, TGL_ENTRY, REAL_MULAI_OV_TIME, REAL_SELESAI_OV_TIME,
 							(RTRIM(NPK)+'/'+TGL_OVERTIME+'/01') AS Reference,
 							(NO_SEQUENCE+''+CLOSE_TRANS) AS Remark,
 							LEFT(REAL_MULAI_OV_TIME, 4) AS OVT_IN_TIME,
@@ -534,61 +579,63 @@
 
 
 							FROM TT_KRY_OVERTIME
-							WHERE CEK_GM = 1 AND NO_SEQUENCE ='$isi->SPKL'
+							WHERE CEK_GM = '$isi->CEK_GM' AND NO_SEQUENCE ='$isi->SPKL'
 							ORDER BY Remark DESC");
 
 
-							foreach ($detail_data_download = $query->result() as $key) : ?>
-								<tr>
-									<!--A -->
-									<!--Reference NO -->
-									<td style="vertical-align: middle;text-align:center;"><?= $key->Reference ?></td>
-									<!--B -->
-									<!--Employee ID -->
-									<td style="vertical-align: middle;text-align:center;"><?= $key->NPK ?></td>
-									<!--C -->
-									<!--Overtime Date -->
-									<td style="vertical-align: middle;text-align:center;"><?= $key->TGL_OVERTIME ?></td>
-									<!--D -->
-									<!--Reference Date -->
-									<td style="vertical-align: middle;text-align:center;"><?= $key->TGL_ENTRY ?></td>
-									<!--E -->
-									<!--Overtime In Date -->
-									<td style="vertical-align: middle;text-align:center;"><?= $key->TGL_OVERTIME ?></td>
-									<!--F -->
-									<!--Overtime In Time -->
-									<!-- --ambil 4 angka didepan-- LEFT di query -->
-									<!-- --REAL_MULAI_OV_TIME-- -->
-									<td style="vertical-align: middle;text-align:center;"><?= $key->OVT_IN_TIME ?></td>
-									<!--G -->
-									<!-- Overtime Out Date -->
-									<!-- --ada tambahan if-- CASE WHEN di query -->
-									<td style="vertical-align: middle;text-align:center;"><?= $key->OVT_OUT_DATE ?></td>
-									<!--H -->
-									<!-- Overtime Out Time -->
-									<!-- --ambil 4 angka didepan-- LEFT di query -->
-									<!-- --REAL_OV_TIME-- -->
-									<td style="vertical-align: middle;text-align:center;"><?= $key->OVT_OUT_TIME ?></td>
-									<!--I -->
-									<!-- Remark -->
-									<!--NO SEQUENCE + CLOSE_TRANS -- CONCAT di query -->
-									<td style="vertical-align: middle;text-align:center;"><?= $key->Remark ?></td>
+									foreach ($detail_data_download = $query->result() as $key) : ?>
+										<tr>
+											<!--A -->
+											<!--Reference NO -->
+											<td style="vertical-align: middle;text-align:center;"><?= $key->Reference ?></td>
+											<!--B -->
+											<!--Employee ID -->
+											<td style="vertical-align: middle;text-align:center;"><?= $key->NPK ?></td>
+											<!--C -->
+											<!--Overtime Date -->
+											<td style="vertical-align: middle;text-align:center;"><?= $key->TGL_OVERTIME ?></td>
+											<!--D -->
+											<!--Reference Date -->
+											<td style="vertical-align: middle;text-align:center;"><?= $key->TGL_ENTRY ?></td>
+											<!--E -->
+											<!--Overtime In Date -->
+											<td style="vertical-align: middle;text-align:center;"><?= $key->TGL_OVERTIME ?></td>
+											<!--F -->
+											<!--Overtime In Time -->
+											<!-- --ambil 4 angka didepan-- LEFT di query -->
+											<!-- --REAL_MULAI_OV_TIME-- -->
+											<td style="vertical-align: middle;text-align:center;"><?= $key->OVT_IN_TIME ?></td>
+											<!--G -->
+											<!-- Overtime Out Date -->
+											<!-- --ada tambahan if-- CASE WHEN di query -->
+											<td style="vertical-align: middle;text-align:center;"><?= $key->OVT_OUT_DATE ?></td>
+											<!--H -->
+											<!-- Overtime Out Time -->
+											<!-- --ambil 4 angka didepan-- LEFT di query -->
+											<!-- --REAL_OV_TIME-- -->
+											<td style="vertical-align: middle;text-align:center;"><?= $key->OVT_OUT_TIME ?></td>
+											<!--I -->
+											<!-- Remark -->
+											<!--NO SEQUENCE + CLOSE_TRANS -- CONCAT di query -->
+											<td style="vertical-align: middle;text-align:center;"><?= $key->Remark ?></td>
 
 
-								</tr>
+										</tr>
 
-							<?php endforeach; ?>
-
-
+									<?php endforeach; ?>
 
 
-						</tbody>
-					</table>
 
+
+								</tbody>
+							</table>
+
+						</div>
+
+
+
+					</div>
 				</div>
-
-
-
 			</div>
 		</div>
 	</div>
