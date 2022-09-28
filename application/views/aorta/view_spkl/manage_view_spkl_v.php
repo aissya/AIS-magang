@@ -123,14 +123,7 @@
                                                         <th style="vertical-align: middle;text-align:center;">Jam Mulai</th>
                                                         <th style="vertical-align: middle;text-align:center;">Jam Selesai</th>
                                                     </tr>
-                                                    <!-- <tr>
-                                                    <th style="vertical-align: middle;text-align:center;">No</th>
-                                                    <th style="vertical-align: middle;text-align:center;">No SPKL</th>
-                                                    <th style="vertical-align: middle;text-align:center;">OT Description</th>
-                                                    <th style="vertical-align: middle;text-align:center;">Total MP</th>
-                                                    <th style="vertical-align: middle;text-align:center;">Plan OT (H)</th>
-                                                    <th style="vertical-align: middle;text-align:center;">Actions</th>
-                                                </tr> -->
+
                                                 </thead>
                                                 <tbody>
                                                     <?php foreach ($data_view as $isi) : ?>
@@ -141,8 +134,6 @@
                                                             <td style="vertical-align: middle;text-align:center;"><?= $isi->TGL_OVERTIME ?></td>
                                                             <td style="vertical-align: middle;text-align:center;"><?= $isi->REAL_MULAI_OV_TIME ?></td>
                                                             <td style="vertical-align: middle;text-align:center;"><?= $isi->REAL_SELESAI_OV_TIME ?></td>
-                                                            <!-- echo "<td align='center'><strong>$isi->TOT_MP</strong></td>"; //TOT_MP
-                                                        echo "<td align='center'><strong>" . number_format($isi->RENC_DURASI_OV_TIME, 2, ',', '.') . "</strong></td>"; //PLAN OTT -->
 
 
                                                         </tr>
@@ -151,7 +142,6 @@
                                             </table>
                                         </div>
 
-                                        <!-- <p id="dept">test</p> -->
 
                                     </div>
                                 </div>
@@ -170,76 +160,9 @@
 
 <script src="<?php echo base_url('assets/js/jquery-1.12.3.js') ?>"></script>
 <script src="<?php echo base_url('assets/js/jquery.dataTables.min.js') ?>"></script>
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+
 <script src="<?php echo base_url('assets/js/dataTables.fixedColumns.min.js') ?>"></script>
 <link rel="stylesheet" href="<?php echo base_url('assets/css/fixedColumns.dataTables.min.css'); ?>">
 <script>
-    // $(document).ready(function () {
-    //     var table = $('#example').DataTable({
-    //         scrollY: "350px",
-    //         scrollX: true,
-    //         scrollCollapse: true,
-    //         paging: true,
-    //         fixedColumns: {
-    //             leftColumns: 4
-    //         }
-    //     });
 
-    // //                                                    $('.dataTables_filter input').addClass('search-query');
-    //                                                 $('.dataTables_filter input').attr('placeholder', 'Search');
-    //                                             });
-
-    // function myFunction() {
-    //     var x = document.getElementById("deptID").value;
-    //     document.getElementById("dept").innerHTML = x;
-    // }
-
-    // $(document).ready(function() {
-    //     $("#filter").submit(function(e) {
-    //         e.preventDefault();
-    //         var id = $('#deptID').val();
-    //         // let a = $this(this).val();
-    //         console.log(id);
-    //         // departemen();
-    //     });
-
-    // });
-
-    // function departemen() {
-    //     var deptID = $("#deptID").val();
-    //     $.ajax({
-    //         url: "<?= base_url('aorta/overtime_c/load_dept'); ?>",
-    //         data: "deptID=" + deptID,
-    //         success: function(data) {
-    //             $("dataTables3").html(data);
-    //         }
-    //     })
-    // }
-
-
-    // function get_filter_dept() {
-    //     $("#filter_dept").html("");
-    //     $.ajax({
-    //         url: "",
-    //         data: "filter_dept" + filer_dept,
-    //         success: function(data) {
-    //             $("#filter_data").html(data);
-    //         }
-    //     });
-
-    // }
-
-    // function get_data_detail(nospkl) {
-    //     $("#data_detail").html("");
-    //     $.ajax({
-    //         async: false,
-    //         type: "POST",
-    //         url: "<?php echo site_url('aorta/overtime_c/view_detail_overtime'); ?>",
-    //         data: "nospkl=" + nospkl,
-    //         success: function(data) {
-    //             $("#data_detail" + nospkl).html(data);
-    //         }
-    //     });
-
-    // }
 </script>
