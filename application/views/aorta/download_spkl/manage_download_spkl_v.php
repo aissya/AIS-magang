@@ -224,9 +224,13 @@
 					<div class="grid-header">
 						<i class="fas fa fa-solid fa-download"></i>
 						<span class="grid-title"><strong>DOWNLOAD SPKL</strong></span>
+
+						<?php echo form_open('aorta/download_spkl_c/downloadMultiple', 'class="form-horizontal"'); ?>
 						<div class="pull-right grid-tools">
-							<a href="#" id="download_all" class=" btn btn-default" style="height:30px;font-size:13px;width:110px;padding-left:10px;">Download All</a>
+							<!-- <button type="submit" id="download_all" name="download_all" value="1" class=" btn btn-default tombolDownloadAll" style="height:30px;font-size:13px;width:110px;padding-left:10px;">Download All</button> -->
 						</div>
+						<?php echo form_close(); ?>
+
 					</div>
 
 					<div class="grid-body">
@@ -299,7 +303,7 @@
 										<select class="form-control mb-2" name="dept" id="dept">
 											<option value="ALL">ALL</option>
 											<option value="ENG">ENG</option>
-											<option value="KQC">KQC</option>
+											<option value="QC">QC</option>
 											<option value="OMD">OMD</option>
 											<option value="MIS">MIS</option>
 											<option value="MSU">MSU</option>
@@ -309,6 +313,7 @@
 											<option value="ERP">ERP</option>
 											<option value="QUA">QUA</option>
 											<option value="PCO">PCO</option>
+											<option value="PRD4">PRD4</option>
 
 										</select>
 									</div>
@@ -380,6 +385,9 @@
 
 						<div style="overflow-x:auto;">
 							<div id="table-luar">
+
+								<?php echo form_open('aorta/download_spkl_c/downloadMultiple', 'class="form-horizontal"'); ?>
+
 								<table id="dataTables3" class="table table-condensed  table-striped table-hover display" cellspacing="0" width="100%">
 									<thead>
 										<tr>
@@ -402,6 +410,8 @@
 											<th style="vertical-align: middle;text-align:center;">Status Download</th>
 
 											<th style="vertical-align: middle;text-align:center;">Actions</th>
+
+											<th> <input type="checkbox" id="checkall" onClick="toggle(this)" /><br /> </th>
 
 										</tr>
 									</thead>
@@ -461,11 +471,15 @@
 
 
 												<td style="vertical-align: middle;text-align:center;">
-													<a data-toggle="modal" data-target="#modal-detail<?php echo $isi->SPKL  ?>" class="btn-detail-class btn btn-primary" type="button">Show</a>
-													<!-- data-toggle="modal" data-target="#modal-detail" -->
 
+													<a data-toggle="modal" data-target="#modal-detail<?php echo $isi->SPKL  ?>" class="btn-detail-class btn btn-primary" type="button"><span class="fa fa-search"></span></a>
 
-													<a href="<?php echo site_url('index.php/aorta/download_spkl_c/excel/') . $isi->SPKL . "/" . $isi->SPKL  ?>" id="download_refresh" class="btn btn-success">Download</a>
+													<a href="<?php echo site_url('index.php/aorta/download_spkl_c/excel/') . $isi->SPKL . "/" . $isi->SPKL  ?>" id="download_refresh" class="btn btn-success"><span class="fa fa-solid fa-download"></span></a>
+
+												</td>
+
+												<td style="vertical-align: middle;text-align:center;">
+													<input type="checkbox" name="SPKL[]" class="centangDownloadAll" value="<?php echo $isi->SPKL  ?>"><br />
 												</td>
 											</tr>
 
@@ -476,16 +490,12 @@
 									</tbody>
 								</table>
 
-								<div class="pull">
-									<table id='filter' width="100%">
-										<tr>
-											<!-- <a href="<?php echo site_url('index.php/aorta/download_spkl_c/excel_list/') . $tgl_mulai . "/" . $tgl_selesai . "/" .  $cek_gm . "/" .  $status_download . "/" . $dept ?>" id="download_refresh" class="btn btn-success">Download List</a>
- -->
+								<button type="submit" id="download_all" name="download_all" value="1" class=" btn btn-default tombolDownloadAll" style="height:30px;font-size:13px;width:110px;padding-left:10px;">Download All</button>
 
-											<td width="60%">
-											</td>
-									</table>
-								</div>
+
+								<?php echo form_close(); ?>
+
+
 							</div>
 
 
@@ -651,6 +661,85 @@
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
 <script src="<?php echo base_url('assets/js/dataTables.fixedColumns.min.js') ?>"></script>
 <link rel="stylesheet" href="<?php echo base_url('assets/css/fixedColumns.dataTables.min.css'); ?>">
+
+<script>
+	$(document).ready(function() {
+		// var oTable = $('#dataTables3').dataTable({
+		// 	stateSave: true
+		// });
+
+		// var allPages = oTable.fnGetNodes();
+
+		// $('body').on('click', '#checkall', function() {
+		// 	if ($(this).hasClass('allChecked')) {
+		// 		$('input[type="checkbox"]', allPages).prop('checked', false);
+		// 	} else {
+		// 		$('input[type="checkbox"]', allPages).prop('checked', true);
+		// 	}
+		// 	$(this).toggleClass('allChecked');
+		// });
+
+
+		// var oTable = $('#dataTables3').dataTable({
+		// 	stateSave: true
+		// });
+
+		// var allPages = oTable.cells().nodes();
+
+		// $('#checkall').click(function() {
+		// 	if ($(this).hasClass('allChecked')) {
+		// 		$(allPages).find('input[type="checkbox"]').prop('checked', false);
+		// 	} else {
+		// 		$(allPages).find('input[type="checkbox"]').prop('checked', true);
+		// 	}
+		// 	$(this).toggleClass('allChecked');
+		// });
+
+		var oTable = $('#dataTables3').dataTable({
+			stateSave: true,
+			"bDestroy": true
+		});
+
+		var allPages = oTable.fnGetNodes();
+
+		$('#checkall').click(function(e) {
+			if ($(this).hasClass('checkedAll')) {
+				$('input', allPages).prop('checked', false);
+				$(this).removeClass('checkedAll');
+			} else {
+				$('input', allPages).prop('checked', true);
+				$(this).addClass('checkedAll');
+			}
+		});
+
+
+		// $('#checkall').click(function(e) {
+
+		// 	if ($(this).is(":checked")) {
+		// 		$('.centangDownloadAll').prop('checked', true);
+		// 	} else {
+		// 		$('.centangDownloadAll'), prop('checked', false);
+		// 	}
+		// });
+
+		// $('.download_all').submit(function(e) {
+		// 	e.preventDefault();
+
+		// 	let jmldata = $('.centangDownloadAll:checked');
+
+		// 	if (jmldata.length == 0) {
+		// 		Swal.fire({
+		// 			icon: 'warning',
+		// 			title: 'Perhatian',
+		// 			text: 'maaf tidak ada yang di download'
+		// 		})
+		// 	}
+		// 	return false;
+		// });
+
+	});
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script>
 	// $('#download_refresh').click(function() {
 	// 	location.reload(true);

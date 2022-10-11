@@ -90,7 +90,8 @@ class download_spkl_c extends CI_Controller
 
 
         $data['data_download'] = $this->download_spkl_m->get($mulai, $selesai, $gm, $deptart, $download);
-
+        // print_r($mulai);
+        // exit();
 
         // $no_spkl = 2021070776;
         // $data['detail_data_download'] = $this->download_spkl_m->detail_m($no_spkl);
@@ -98,6 +99,89 @@ class download_spkl_c extends CI_Controller
 
         $data['content'] = 'aorta/download_spkl/manage_download_spkl_v'; // NAMA VIEW 
         $this->load->view($this->layout, $data);
+    }
+
+    function downloadMultiple()
+    {
+
+        if ($this->input->post("SPKL")) {
+
+
+            $no_spkl =  $this->input->post("SPKL");
+
+            $len = count($no_spkl);
+            $list_spkl = '';
+            for ($i = 0; $i < $len; $i++) {
+                $spkl = $no_spkl[$i];
+
+                if ($i < $len - 1) {
+                    $list_spkl .= "'" . $spkl . "',";
+                } else {
+                    $list_spkl .= "'" . $spkl . "'";
+                }
+            }
+
+            // print_r($list_spkl);
+            // exit();
+
+
+            $data['data_download'] = $this->download_spkl_m->status_m($list_spkl);
+            $data['data_download'] = $this->download_spkl_m->check_excel_all($list_spkl);
+
+            // print_r($data['data_download']);
+            // exit();
+
+            $this->load->library('Excel');
+
+
+            $objPHPExcel = new PHPExcel();
+
+            $objPHPExcel->getProperties()->setCreator("Aisin Indonesia");
+            $objPHPExcel->getProperties()->setLastModifiedBy("Aisin Indonesia");
+            $objPHPExcel->getProperties()->setTitle("SPKL");
+            $objPHPExcel->getProperties()->setSubject("SPKL");
+            $objPHPExcel->getProperties()->setDescription("SPKL");
+
+
+            $objReader = PHPExcel_IOFactory::createReader('Excel5');
+
+            $objPHPExcel = $objReader->load("assets/template/rpt_aoreal.xls");
+
+
+            $baris = 2;
+
+
+            foreach ($data['data_download'] as  $isi) {
+                $objPHPExcel->getActiveSheet()->setCellValue('A' . $baris, $isi->Reference);
+                $objPHPExcel->getActiveSheet()->setCellValue('B' . $baris, $isi->NPK);
+                $objPHPExcel->getActiveSheet()->setCellValue('C' . $baris, $isi->TGL_OVERTIME);
+                $objPHPExcel->getActiveSheet()->setCellValue('D' . $baris, $isi->TGL_ENTRY);
+                $objPHPExcel->getActiveSheet()->setCellValue('E' . $baris, $isi->TGL_OVERTIME);
+                $objPHPExcel->getActiveSheet()->setCellValue('F' . $baris, $isi->OVT_IN_TIME);
+                $objPHPExcel->getActiveSheet()->setCellValue('G' . $baris, $isi->OVT_OUT_DATE);
+                $objPHPExcel->getActiveSheet()->setCellValue('H' . $baris, $isi->OVT_OUT_TIME);
+                $objPHPExcel->getActiveSheet()->setCellValue('I' . $baris, $isi->Remark);
+
+
+                $baris++;
+            }
+
+
+            $filename = "All-" . date("Y-m-d")  . ".xls";
+            ob_end_clean();
+            header('Content-Type: application/vnd.ms-excel');
+            header('Content-Disposition: attachment;filename="' . trim($filename) . '"');
+            header('Cache-Control: max-age=0');
+
+
+            $writer = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+            $writer->save('php://output');
+
+
+            exit;
+        } else {
+            redirect('index.php/aorta/download_spkl_c');
+        }
     }
 
     function search($msg = NULL)
@@ -151,8 +235,12 @@ class download_spkl_c extends CI_Controller
         $data['dept'] = $deptart;
         $data['status_download'] = $download;
 
+        // print_r($mulai);
+        // exit();
+
         $mulai = str_replace("-", "", "$mulai"); //untuk merubah format date dari 2021-07-01 menjadi 20210701
         $selesai = str_replace("-", "", "$selesai");
+
 
         if ($this->input->post("download_list")) {
 
@@ -225,7 +313,7 @@ class download_spkl_c extends CI_Controller
             }
 
 
-            $filename = "List"  . ".xlt";
+            $filename = "List"  . ".xls";
             ob_end_clean();
             header('Content-Type: application/vnd.ms-excel');
             header('Content-Disposition: attachment;filename="' . trim($filename) . '"');
@@ -341,6 +429,7 @@ class download_spkl_c extends CI_Controller
     //filter wtih get
 
 
+
     function belum_GM($period = null, $dept = null, $section = null, $msg = NULL)
     {
 
@@ -433,86 +522,55 @@ class download_spkl_c extends CI_Controller
         $data['data_download'] = $this->download_spkl_m->status_m($status_spkl); //untuk update flg_download ketika di download
         $data['data_download'] = $this->download_spkl_m->excel_m($no_spkl); //untuk download sesuai format excel
 
+        // print_r($data['data_download']);
+        // exit();
+
         $this->load->library('Excel');
 
 
-        $object = new PHPExcel();
+        $objPHPExcel = new PHPExcel();
 
-        $object->getProperties()->setCreator("Aisin Indonesia");
-        $object->getProperties()->setLastModifiedBy("Aisin Indonesia");
-        $object->getProperties()->setTitle("SPKL");
-        $object->getProperties()->setSubject("SPKL");
-        $object->getProperties()->setDescription("SPKL");
+        $objPHPExcel->getProperties()->setCreator("Aisin Indonesia");
+        $objPHPExcel->getProperties()->setLastModifiedBy("Aisin Indonesia");
+        $objPHPExcel->getProperties()->setTitle("SPKL");
+        $objPHPExcel->getProperties()->setSubject("SPKL");
+        $objPHPExcel->getProperties()->setDescription("SPKL");
 
-        // $object->setActiveSheetIndex(0);
 
-        //SETUP EXCEL
-        $object->setActiveSheetIndex();
-        $worksheet = $object->getActiveSheet();
-        // $worksheet->setTitle($period . "_" . $dept);
+        $objReader = PHPExcel_IOFactory::createReader('Excel5');
 
-        //WIDTH
-        $worksheet->getColumnDimension('A')->setWidth(12.14);
-        $worksheet->getColumnDimension('B')->setWidth(18.29);
-        $worksheet->getColumnDimension('C')->setWidth(13.71);
-        $worksheet->getColumnDimension('D')->setWidth(16.14);
-        $worksheet->getColumnDimension('E')->setWidth(17.57);
-        $worksheet->getColumnDimension('F')->setWidth(17.29);
-        $worksheet->getColumnDimension('G')->setWidth(16.14);
-        $worksheet->getColumnDimension('H')->setWidth(21.29);
-        $worksheet->getColumnDimension('I')->setWidth(8.43);
-
-        $worksheet->getStyle("A:I")->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
-        // $worksheet->getStyle("A1:I1")->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
-
-        $styleArray = [
-            'font' => [
-                'size'  =>  10,
-                'name'  =>  'Arial'
-            ],
-
-        ];
-        $worksheet->getStyle("A:I")->applyFromArray($styleArray);
-
-        //HEADER
-        $worksheet->setCellValue('A1', 'reference no');
-        $worksheet->setCellValue('B1', 'employee ID');
-        $worksheet->setCellValue('C1', 'overtime date');
-        $worksheet->setCellValue('D1', 'reference date');
-        $worksheet->setCellValue('E1', 'overtime in date');
-        $worksheet->setCellValue('F1', 'overtime in time');
-        $worksheet->setCellValue('G1', 'overtime out date');
-        $worksheet->setCellValue('H1', 'overtime out time');
-        $worksheet->setCellValue('I1', 'remark');
+        $objPHPExcel = $objReader->load("assets/template/rpt_aoreal.xls");
 
 
         $baris = 2;
 
 
         foreach ($data['data_download'] as  $isi) {
-            $worksheet->setCellValue('A' . $baris, $isi->Reference);
-            $worksheet->setCellValue('B' . $baris, $isi->NPK);
-            $worksheet->setCellValue('C' . $baris, $isi->TGL_OVERTIME);
-            $worksheet->setCellValue('D' . $baris, $isi->TGL_ENTRY);
-            $worksheet->setCellValue('E' . $baris, $isi->TGL_OVERTIME);
-            $worksheet->setCellValue('F' . $baris, $isi->OVT_IN_TIME);
-            $worksheet->setCellValue('G' . $baris, $isi->OVT_OUT_DATE);
-            $worksheet->setCellValue('H' . $baris, $isi->OVT_OUT_TIME);
-            $worksheet->setCellValue('I' . $baris, $isi->Remark);
+            $objPHPExcel->getActiveSheet()->setCellValue('A' . $baris, $isi->Reference);
+            $objPHPExcel->getActiveSheet()->setCellValue('B' . $baris, $isi->NPK);
+            $objPHPExcel->getActiveSheet()->setCellValue('C' . $baris, $isi->TGL_OVERTIME);
+            $objPHPExcel->getActiveSheet()->setCellValue('D' . $baris, $isi->TGL_ENTRY);
+            $objPHPExcel->getActiveSheet()->setCellValue('E' . $baris, $isi->TGL_OVERTIME);
+            $objPHPExcel->getActiveSheet()->setCellValue('F' . $baris, $isi->OVT_IN_TIME);
+            $objPHPExcel->getActiveSheet()->setCellValue('G' . $baris, $isi->OVT_OUT_DATE);
+            $objPHPExcel->getActiveSheet()->setCellValue('H' . $baris, $isi->OVT_OUT_TIME);
+            $objPHPExcel->getActiveSheet()->setCellValue('I' . $baris, $isi->Remark);
 
 
             $baris++;
         }
 
 
-        $filename = $no_spkl  . ".xlt";
+        $filename = $no_spkl  . ".xls";
         ob_end_clean();
         header('Content-Type: application/vnd.ms-excel');
         header('Content-Disposition: attachment;filename="' . trim($filename) . '"');
         header('Cache-Control: max-age=0');
 
-        $writer = PHPExcel_IOFactory::createWriter($object, 'Excel5');
+
+        $writer = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
         $writer->save('php://output');
+
 
         exit;
     }
@@ -588,7 +646,7 @@ class download_spkl_c extends CI_Controller
         }
 
 
-        $filename = "List"  . ".xlt";
+        $filename = "List"  . ".xls";
         ob_end_clean();
         header('Content-Type: application/vnd.ms-excel');
         header('Content-Disposition: attachment;filename="' . trim($filename) . '"');
