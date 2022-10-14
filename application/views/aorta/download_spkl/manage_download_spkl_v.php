@@ -483,7 +483,7 @@
 
 												<td style="vertical-align: middle;text-align:center;">
 
-													<a data-toggle="modal" data-target="#modal-detail<?php echo $isi->SPKL  ?>" class="btn-detail-class btn btn-primary" type="button"><span class="fa fa-search"></span></a>
+													<a data-toggle="modal" data-target="#modal-detail<?php echo $isi->SPKL  ?>" class="btn-detail-class btn btn-info" type="button"><span class="fa fa-search"></span></a>
 
 													<a href="<?php echo site_url('index.php/aorta/download_spkl_c/excel/') . $isi->SPKL . "/" . $isi->SPKL  ?>" id="download_refresh" class="btn btn-success"><span class="fa fa-solid fa-download"></span></a>
 
@@ -501,7 +501,7 @@
 									</tbody>
 								</table>
 
-								<button type="submit" id="download_all" name="download_all" value="1" class=" btn btn-default tombolDownloadAll" style="height:30px;font-size:13px;width:110px;padding-left:10px;">Download All</button>
+								<button type="submit" id="download_all" name="download_all" value="1" class=" btn btn-primary tombolDownloadAll" style="height:30px;font-size:13px;width:110px;padding-left:10px;">Download All</button>
 
 
 								<?php echo form_close(); ?>
