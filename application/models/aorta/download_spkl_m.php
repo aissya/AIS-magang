@@ -6,34 +6,14 @@ class download_spkl_m extends CI_Model
     private $tabel = 'TT_KRY_OVERTIME';
     private $temp_tabel = 'TW_KRY_OVERTIME';
 
-
-
     function  get($mulai, $selesai, $gm, $deptart, $download)
     {
         $aortadb = $this->load->database("aorta", TRUE);
         if ($deptart == "ALL") {
-            $query = $aortadb->query("SELECT DISTINCT TOP 100 NO_SEQUENCE AS SPKL, FLG_DOWNLOAD, KD_DEPT, TGL_OVERTIME, CEK_GM,
-            COUNT(DISTINCT NPK) AS Karyawan, 
-            ROUND(SUM(cast(RENC_DURASI_OV_TIME AS float))/60 ,2) as Plan_OT,
-            ROUND(cast(SUM(cast(REAL_DURASI_OV_TIME AS float))/60 AS FLOAT), 2) as Real_OT
-
-            FROM TT_KRY_OVERTIME 
-            WHERE   CEK_GM = '$gm' AND  TGL_OVERTIME BETWEEN '$mulai' AND '$selesai' AND FLG_DOWNLOAD = '$download'
-            GROUP BY NO_SEQUENCE, FLG_DOWNLOAD, KD_DEPT, TGL_OVERTIME, CEK_GM
-            ORDER BY NO_SEQUENCE desc");
+            $query = $aortadb->query("EXEC getStatusOt '$gm','$mulai','$selesai','$download'");
         } else {
-            $query = $aortadb->query("SELECT DISTINCT TOP 100 NO_SEQUENCE AS SPKL, FLG_DOWNLOAD, KD_DEPT, TGL_OVERTIME, CEK_GM,
-            COUNT(DISTINCT NPK) AS Karyawan, 
-            ROUND(SUM(cast(RENC_DURASI_OV_TIME AS float))/60 ,2) as Plan_OT,
-            ROUND(cast(SUM(cast(REAL_DURASI_OV_TIME AS float))/60 AS FLOAT), 2) as Real_OT
-
-            FROM TT_KRY_OVERTIME 
-            WHERE   CEK_GM = '$gm' AND KD_DEPT = '$deptart' AND  TGL_OVERTIME BETWEEN '$mulai' AND '$selesai' AND FLG_DOWNLOAD = '$download'
-            GROUP BY NO_SEQUENCE, FLG_DOWNLOAD, KD_DEPT, TGL_OVERTIME, CEK_GM
-            ORDER BY NO_SEQUENCE desc");
+            $query = $aortadb->query("EXEC getStatusOtdept '$gm','$deptart','$mulai','$selesai','$download'");
         }
-
-
 
         return $query->result();
     }

@@ -421,7 +421,18 @@
 										<?php foreach ($data_download as $isi) : ?>
 											<tr>
 
-												<td style="vertical-align: middle;text-align:center;"><?= $isi->SPKL ?></td>
+												<?php
+												if ($isi->status == 'merah') {
+												?>
+													<td style="vertical-align: middle;text-align:center;color:red"><?= $isi->SPKL ?></td>
+												<?php
+												} else {
+												?>
+													<td style="vertical-align: middle;text-align:center;"><?= $isi->SPKL ?></td>
+												<?php
+												}
+												?>
+												</td>
 
 												<td style="vertical-align: middle;text-align:center;">
 
