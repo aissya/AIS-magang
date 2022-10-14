@@ -159,6 +159,7 @@ class download_spkl_c extends CI_Controller
                 $objPHPExcel->getActiveSheet()->setCellValue('E' . $baris, $isi->TGL_OVERTIME);
                 $objPHPExcel->getActiveSheet()->setCellValue('F' . $baris, $isi->OVT_IN_TIME);
                 $objPHPExcel->getActiveSheet()->setCellValue('G' . $baris, $isi->OVT_OUT_DATE);
+                $objPHPExcel->getActiveSheet()->getStyle('A1')->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_GENERAL)('F' . $baris, $isi->OVT_IN_TIME);
                 $objPHPExcel->getActiveSheet()->setCellValue('H' . $baris, $isi->OVT_OUT_TIME);
                 $objPHPExcel->getActiveSheet()->setCellValue('I' . $baris, $isi->Remark);
 
